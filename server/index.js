@@ -61,28 +61,63 @@ app.post("/auth/register", registerValidator, async (req, res) => {
       token,
     });
   } catch (error) {
-    console.log(error);
+    if (error.code === 11000) {
+      return res.status(400).json({
+        message: "Duplicate Email",
+      });
+    }
     res.status(500).json({
       message: "Failed to register",
     });
   }
 });
 
-// app.post("/auth/login", (req, res) => {
-//   console.log(req.body);
+app.post("/auth/login", async (req, res) => {
+  try {
+    const user = await UserModel.findOne({ email: req.body.email });
 
-//   const token = jwt.sign(
-//     {
-//       email: req.body.email,
-//       fullName: "Admin Admin",
-//     },
-//     "secret123"
-//   );
-//   res.json({
-//     success: true,
-//     token,
-//   });
-// });
+    if (!user) {
+      return res.status(404).json({
+        message: "Wrong the email or the password",
+      });
+    }
+
+    const isValidPassword = await bcrypt.compare(
+      req.body.password,
+      user.passwordHash
+    );
+
+    if (!isValidPassword) {
+      return res.status(404).json({
+        message: "Wrong the email or the password",
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        _id: user._doc._id,
+      },
+      "secret123",
+      {
+        expiresIn: "30d",
+      }
+    );
+
+    res.json({
+      success: true,
+      user: {
+        id: user._doc._id,
+        email: user._doc.email,
+        fullName: user._doc.fullName,
+      },
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to register",
+    });
+  }
+});
 
 app.listen(2300, (err) => {
   if (err) {
