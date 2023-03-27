@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import router from "./router/index.js";
+import errorMiddleware from "./middlewares/error.middleware.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(cors({
 }));
 app.use(cookieParser());
 app.use('/', router);
+app.use(errorMiddleware);
 
 
 const start = async () => {

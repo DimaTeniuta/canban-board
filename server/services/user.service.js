@@ -2,12 +2,13 @@ import userModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import tokenService from "./token.service.js";
 import UserDto from "../dtos/user.dto.js";
+import ApiError from "../exceptions/api.error.js";
 
 class UserService {
   async registration(email, password) {
     const userBd = await userModel.findOne({ email });
     if (userBd) {
-      throw new Error("The email has already existed");
+      throw ApiError.BadRequest("The email has already existed");
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
