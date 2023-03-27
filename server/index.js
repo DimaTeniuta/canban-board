@@ -1,8 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
-import { registerValidator } from "./validator/auth.js";
+import { loginValidator, registerValidator } from "./validator/auth.js";
 import checkAuth from "./utils/checkAuth.js";
 import * as UserController from "./controller/userController.js";
+import handleValidationErrors from "./utils/handleValidationErrors.js";
+import cors from "cors";
 
 mongoose
   .connect(
@@ -14,10 +16,21 @@ mongoose
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
-app.post("/auth/register", registerValidator, UserController.register);
+app.post(
+  "/auth/register",
+  registerValidator,
+  handleValidationErrors,
+  UserController.register
+);
 
-app.post("/auth/login", UserController.login);
+app.post(
+  "/auth/login",
+  loginValidator,
+  handleValidationErrors,
+  UserController.login
+);
 
 app.get("/auth/info", checkAuth, UserController.getUserInfo);
 
