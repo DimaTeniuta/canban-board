@@ -40,7 +40,7 @@ class UserController {
     try {
       const { refreshToken } = req.cookies;
       const token = await userService.logout(refreshToken);
-      res.clearCookie('refreshToken');
+      res.clearCookie("refreshToken");
 
       return res.json(token);
     } catch (error) {
@@ -65,7 +65,11 @@ class UserController {
 
   async getUsers(req, res, next) {
     try {
-      res.json(["111", "222"]);
+      const users = await userService.getAllUsers();
+      const filteredUsers = users.map((user) => {
+        return { email: user.email, id: user._id };
+      });
+      res.json(filteredUsers);
     } catch (error) {
       next(error);
     }
