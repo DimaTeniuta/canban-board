@@ -1,9 +1,8 @@
-import { Box } from '@mui/material';
 import React from 'react';
-// import logo from '../../../assets/chat0logo.jpg';
+import * as Styled from './Logo.styles';
 
 const Logo = () => {
-  // return <img src={'../../../assets/chat0logo.jpg'} alt="Chat" width="180" />;
+  return <Styled.Logo>ONLINE CHAT</Styled.Logo>;
 };
 
 export default Logo;
