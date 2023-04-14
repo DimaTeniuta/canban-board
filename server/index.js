@@ -37,19 +37,3 @@ const start = async () => {
 
 start();
 
-// app.post(
-//   "/auth/register",
-//   registerValidator,
-//   handleValidationErrors,
-//   UserController.register
-// );
-
-// app.post(
-//   "/auth/login",
-//   loginValidator,
-//   handleValidationErrors,
-//   UserController.login
-// );
-
-// app.get("/auth/info", checkAuth, UserController.getUserInfo);
-

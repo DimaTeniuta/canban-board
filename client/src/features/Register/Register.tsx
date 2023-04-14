@@ -8,6 +8,21 @@ import * as Styled from './Register.styles';
 const Register = () => {
   const handleSubmit = (inputs: IFormRegisterInput) => {
     console.log('submit', inputs);
+    fetch('http://localhost:2300/registration', {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(inputs),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log('res', data))
+      .catch((err) => console.log(err));
   };
 
   return (

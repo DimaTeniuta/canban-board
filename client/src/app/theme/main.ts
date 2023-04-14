@@ -57,5 +57,14 @@ export default createTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        input: {
+          '&:-webkit-autofill': {
+            WebkitBoxShadow: '0 0 0 100px #fefefe inset',
+          },
+        },
+      },
+    },
   },
 });
