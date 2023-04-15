@@ -50,9 +50,12 @@ export default class UserStore {
       this.setLoading(true);
       const response = await authService.login(email, password);
       console.log('login', response);
-      this.setToken(response.data.accessToken);
-      this.setAuth(true);
-      this.setUser(response.data.user);
+      if (response.status === 200) {
+        this.setToken(response.data.accessToken);
+        this.setAuth(true);
+        this.setUser(response.data.user);
+      }
+      return response;
     } catch (err) {
       console.error(err);
     } finally {

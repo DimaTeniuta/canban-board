@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { IAuthResponse } from '../types/authResponse';
+import { notificationStore } from '../store/notificationStore/notificationStore';
 
 export const API_URL = 'http://localhost:2300/';
 
@@ -19,19 +20,24 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status == 401 && error.config && !error.config._isRetry) {
+    if (error.response.status === 401 && error.config && !error.config._isRetry) {
       originalRequest._isRetry = true;
       try {
         const response = await axios.get<IAuthResponse>(`${API_URL}/refresh`, {
           withCredentials: true,
         });
-        localStorage.setItem('token', response.data.accessToken);
+        if (response.status === 200) {
+          originalRequest._isRetry = false;
+          localStorage.setItem('token', response.data.accessToken);
+        }
+
         return api.request(originalRequest);
       } catch (e) {
         console.log('Unauthorized');
       }
     }
-    throw error;
+    notificationStore.openErrorAlert(error?.response?.data?.message);
+    return error;
   }
 );
 

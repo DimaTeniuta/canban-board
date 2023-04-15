@@ -1,16 +1,16 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import RegisterForm from '../../entities/RegisterForm/RegisterForm';
 import AuthRouteLink from '../../shared/UI/AuthRouteLink/AuthRouteLink';
 import { IFormRegisterInput } from '../../entities/RegisterForm/RegisterForm.types';
 import store from '../../shared/store/root';
-import * as Styled from './Register.styles';
+import LoginForm from '../../entities/LoginForm';
+import * as Styled from './Login.styles';
 
-const Register = () => {
-  const handleSubmit = (inputs: IFormRegisterInput) => {
+const Login = () => {
+  const handleSubmit = async (inputs: IFormRegisterInput) => {
     console.log('submit', inputs);
-    store.user.registration(inputs.email, inputs.password);
+    await store.user.login(inputs.email, inputs.password);
   };
 
   return (
@@ -18,12 +18,12 @@ const Register = () => {
       <Styled.PaperContainer>
         <Grid container direction="column" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
-            <RegisterForm onSubmit={handleSubmit} defaultValues={{ email: '', password: '' }} />
+            <LoginForm onSubmit={handleSubmit} defaultValues={{ email: '', password: '' }} />
           </Grid>
 
           <Grid item xl={4} width={'100%'}>
             <Styled.LinkWrapper>
-              <AuthRouteLink path={'/login'}>I have an account</AuthRouteLink>
+              <AuthRouteLink path={'/register'}>{"I don't have an account"}</AuthRouteLink>
             </Styled.LinkWrapper>
           </Grid>
         </Grid>
@@ -32,4 +32,4 @@ const Register = () => {
   );
 };
 
-export default observer(Register);
+export default observer(Login);
