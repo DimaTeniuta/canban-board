@@ -2,13 +2,12 @@ import authModel from "./auth.model.js";
 import bcrypt from "bcrypt";
 import tokenService from "../token/token.service.js";
 import UserDto from './dto/auth.dto.js';
-import ApiError from "../exceptions/api.error.js";
 
 class AuthService {
   async registration(email, password) {
     const userBd = await authModel.findOne({ email });
     if (userBd) {
-      throw ApiError.BadRequest("The email has already existed");
+      return "The email has already existed";
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -27,12 +26,12 @@ class AuthService {
   async login(email, password) {
     const user = await authModel.findOne({ email });
     if (!user) {
-      throw ApiError.BadRequest("Invalid email or password");
+      return "Invalid email or password";
     }
 
     const isPasswordEquals = await bcrypt.compare(password, user.password);
     if (!isPasswordEquals) {
-      throw ApiError.BadRequest("Invalid email or password");
+      return "Invalid email or password";
     }
 
     const userDto = new UserDto(user);
@@ -51,14 +50,17 @@ class AuthService {
   }
 
   async refresh(refreshToken) {
+    console.log(33, refreshToken);
     if (!refreshToken) {
-      throw ApiError.UnauthorizedError();
+      console.log(4444);
+      return 'Unauthorized';
     }
 
     const userData = tokenService.validateRefreshToken(refreshToken);
     const tokenFromDb = await tokenService.findToken(refreshToken);
     if (!userData || !tokenFromDb) {
-      throw ApiError.UnauthorizedError();
+      console.log(5555);
+      return 'Unauthorized';
     }
 
     const user = await authModel.findById(userData.id);

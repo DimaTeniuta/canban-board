@@ -2,7 +2,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
-import errorMiddleware from "./middlewares/error.js";
 
 
 export default class App {
@@ -10,7 +9,6 @@ export default class App {
     this.app = express();
     this.port = process.env.PORT || 5000;
     this.initApp();
-    this.initMiddleware();
     this.initRoutes(routes);
   }
 
@@ -23,10 +21,6 @@ export default class App {
       })
     );
     this.app.use(cookieParser());
-  }
-
-  initMiddleware() {
-    this.app.use(errorMiddleware);
   }
 
   initRoutes(routes) {

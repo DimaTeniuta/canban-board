@@ -1,5 +1,4 @@
 import { validationResult } from "express-validator";
-import ApiError from "../exceptions/api.error.js";
 import authService from "./auth.service.js";
 
 class AuthController {
@@ -7,16 +6,19 @@ class AuthController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(ApiError.BadRequest("Validation error", errors.array()));
+        return next(res.status(400).json("Validation error"));
       }
       const { email, password } = req.body;
       const userData = await authService.registration(email, password);
-
-      res.cookie("refreshToken", userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-      res.json(userData);
+      if (typeof userData === "string") {
+        res.status(400).json(userData);
+      } else {
+        res.cookie("refreshToken", userData.refreshToken, {
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
+        res.json(userData);
+      }
     } catch (error) {
       next(error);
     }
@@ -26,17 +28,19 @@ class AuthController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(
-          ApiError.BadRequest("Validation error", errors.array())
-        );
+        return next(res.status(400).json("Validation error"));
       }
       const { email, password } = req.body;
       const userData = await authService.login(email, password);
-      res.cookie("refreshToken", userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-      res.json(userData);
+      if (typeof userData === "string") {
+        res.status(400).json(userData);
+      } else {
+        res.cookie("refreshToken", userData.refreshToken, {
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
+        res.json(userData);
+      }
     } catch (error) {
       next(error);
     }
@@ -55,15 +59,18 @@ class AuthController {
   }
 
   async refresh(req, res, next) {
-    try {
+    try {;
       const { refreshToken } = req.cookies;
       const userData = await authService.refresh(refreshToken);
-
-      res.cookie("refreshToken", userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-      res.json(userData);
+      if (typeof userData === "string") {
+        res.status(401).json(userData);
+      } else {
+        res.cookie("refreshToken", userData.refreshToken, {
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
+        res.json(userData);
+      }
     } catch (error) {
       next(error);
     }
