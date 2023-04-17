@@ -1,16 +1,55 @@
 import React from 'react';
-import { Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 import LoginPage from '../../pages/LoginPage/LoginPage';
 import RegisterPage from '../../pages/RegisterPage/RegisterPage';
 import { Layout } from '../Layout';
+import store from '../../shared/store/root';
+import HomePage from '../../pages/HomePage/HomePage';
+import { PublicRouteGuard } from './PublicRouteGuard';
+import { PrivateRouteGuard } from './PrivateRouteGuard';
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
-      <Route path="login" element={<LoginPage />} />
-      <Route path="register" element={<RegisterPage />} />
-    </Route>
-  )
-);
+const Router = () => {
+  const isAuth = store.user.isAuth;
 
-export default router;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route
+            index
+            element={
+              isAuth ? <Navigate to={'/home'} replace /> : <Navigate to={'/login'} replace />
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <PublicRouteGuard>
+                <LoginPage />
+              </PublicRouteGuard>
+            }
+          />
+          <Route
+            path="register"
+            element={
+              <PublicRouteGuard>
+                <RegisterPage />
+              </PublicRouteGuard>
+            }
+          />
+          <Route
+            path="home"
+            element={
+              <PrivateRouteGuard>
+                <HomePage />
+              </PrivateRouteGuard>
+            }
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default observer(Router);

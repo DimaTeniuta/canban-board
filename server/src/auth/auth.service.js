@@ -1,19 +1,19 @@
-import userModel from "../models/user.model.js";
+import authModel from "./auth.model.js";
 import bcrypt from "bcrypt";
-import tokenService from "./token.service.js";
-import UserDto from "../dtos/user.dto.js";
+import tokenService from "../token/token.service.js";
+import UserDto from './dto/auth.dto.js';
 import ApiError from "../exceptions/api.error.js";
 
-class UserService {
+class AuthService {
   async registration(email, password) {
-    const userBd = await userModel.findOne({ email });
+    const userBd = await authModel.findOne({ email });
     if (userBd) {
       throw ApiError.BadRequest("The email has already existed");
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const user = await userModel.create({ email, password: hashPassword });
+    const user = await authModel.create({ email, password: hashPassword });
     const userDto = new UserDto(user); // id, email
     const tokens = tokenService.generateToken({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
@@ -25,7 +25,7 @@ class UserService {
   }
 
   async login(email, password) {
-    const user = await userModel.findOne({ email });
+    const user = await authModel.findOne({ email });
     if (!user) {
       throw ApiError.BadRequest("Invalid email or password");
     }
@@ -61,7 +61,7 @@ class UserService {
       throw ApiError.UnauthorizedError();
     }
 
-    const user = await userModel.findById(userData.id);
+    const user = await authModel.findById(userData.id);
     const userDto = new UserDto(user);
     const tokens = tokenService.generateToken({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
@@ -73,10 +73,10 @@ class UserService {
   }
 
   async getAllUsers() {
-    const users = await userModel.find();
+    const users = await authModel.find();
     return users;
   }
 }
 
-const userService = new UserService();
-export default userService;
+const authService = new AuthService();
+export default authService;
