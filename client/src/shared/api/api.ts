@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { IAuthResponse } from '../types/authResponse';
 import { notificationStore } from '../store/notificationStore/notificationStore';
+import store from '../store/root';
 
 export const API_URL = 'http://localhost:2300/';
 
@@ -29,8 +30,9 @@ api.interceptors.response.use(
         if (response.status === 200) {
           originalRequest._isRetry = false;
           localStorage.setItem('token', response.data.accessToken);
+        } else {
+          store.user.removeUserFromStore();
         }
-
         return api.request(originalRequest);
       } catch (e) {
         console.log('Unauthorized');

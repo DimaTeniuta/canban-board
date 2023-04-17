@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 import RegisterForm from '../../entities/RegisterForm/RegisterForm';
 import AuthRouteLink from '../../shared/UI/AuthRouteLink/AuthRouteLink';
 import { IFormRegisterInput } from '../../entities/RegisterForm/RegisterForm.types';
@@ -8,9 +9,12 @@ import store from '../../shared/store/root';
 import * as Styled from './Register.styles';
 
 const Register = () => {
-  const handleSubmit = (inputs: IFormRegisterInput) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (inputs: IFormRegisterInput) => {
     console.log('submit', inputs);
-    store.user.registration(inputs.email, inputs.password);
+    await store.user.registration(inputs.email, inputs.password);
+    navigate(`/home`, { replace: true });
   };
 
   return (

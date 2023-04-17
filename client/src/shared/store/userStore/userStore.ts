@@ -35,9 +35,11 @@ export default class UserStore {
       this.setLoading(true);
       const response = await authService.register(email, password);
       console.log('register', response);
-      this.setToken(response.data.accessToken);
-      this.setAuth(true);
-      this.setUser(response.data.user);
+      if (response.status === 200) {
+        this.setToken(response.data.accessToken);
+        this.setAuth(true);
+        this.setUser(response.data.user);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -63,14 +65,18 @@ export default class UserStore {
     }
   }
 
+  public removeUserFromStore() {
+    localStorage.removeItem('token');
+    this.setAuth(false);
+    this.setUser(null);
+  }
+
   public async logout() {
     try {
       this.setLoading(true);
       const response = await authService.logout();
       console.log('logout', response);
-      localStorage.removeItem('token');
-      this.setAuth(false);
-      this.setUser(null);
+      this.removeUserFromStore();
     } catch (err) {
       console.error(err);
     } finally {
