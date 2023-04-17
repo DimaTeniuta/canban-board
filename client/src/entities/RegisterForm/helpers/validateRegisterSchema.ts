@@ -7,4 +7,7 @@ export const validateRegisterSchema = object({
   password: string()
     .required()
     .min(5),
+  name: string()
+    .required()
+    .min(3),
 });

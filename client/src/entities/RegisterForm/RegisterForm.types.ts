@@ -6,4 +6,5 @@ export interface IRegisterFormProps {
 export interface IFormRegisterInput {
   email: string;
   password: string;
+  name: string;
 }

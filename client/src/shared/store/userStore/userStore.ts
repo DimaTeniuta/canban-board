@@ -30,10 +30,10 @@ export default class UserStore {
     localStorage.setItem('token', token);
   }
 
-  public async registration(email: string, password: string) {
+  public async registration(email: string, password: string, name: string) {
     try {
       this.setLoading(true);
-      const response = await authService.register(email, password);
+      const response = await authService.register(email, password, name);
       console.log('register', response);
       if (response.status === 200) {
         this.setToken(response.data.accessToken);

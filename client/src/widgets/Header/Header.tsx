@@ -5,6 +5,7 @@ import Logo from '../../shared/UI/Logo';
 import AuthNav from '../../features/AuthNav';
 import store from '../../shared/store/root';
 import LogoutBox from '../../features/LogoutBox/LogoutBox';
+import UserName from '../../entities/UserName/UserName';
 import * as Styled from './Header.styles';
 
 const Header = () => {
@@ -15,7 +16,14 @@ const Header = () => {
       <Container maxWidth="xl">
         <Styled.Toolbar disableGutters={true}>
           <Logo />
-          {isAuth ? <LogoutBox /> : <AuthNav />}
+          {isAuth ? (
+            <Styled.WrapperLogoutBox>
+              <UserName />
+              <LogoutBox />
+            </Styled.WrapperLogoutBox>
+          ) : (
+            <AuthNav />
+          )}
         </Styled.Toolbar>
       </Container>
     </AppBar>

@@ -8,8 +8,8 @@ class AuthController {
       if (!errors.isEmpty()) {
         return next(res.status(400).json("Validation error"));
       }
-      const { email, password } = req.body;
-      const userData = await authService.registration(email, password);
+      const { email, password, name } = req.body;
+      const userData = await authService.registration(email, password, name);
       if (typeof userData === "string") {
         res.status(400).json(userData);
       } else {

@@ -13,7 +13,7 @@ const Register = () => {
 
   const handleSubmit = async (inputs: IFormRegisterInput) => {
     console.log('submit', inputs);
-    await store.user.registration(inputs.email, inputs.password);
+    await store.user.registration(inputs.email, inputs.password, inputs.name);
     navigate(`/home`, { replace: true });
   };
 
@@ -22,7 +22,10 @@ const Register = () => {
       <Styled.PaperContainer>
         <Grid container direction="column" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
-            <RegisterForm onSubmit={handleSubmit} defaultValues={{ email: '', password: '' }} />
+            <RegisterForm
+              onSubmit={handleSubmit}
+              defaultValues={{ email: '', password: '', name: '' }}
+            />
           </Grid>
 
           <Grid item xl={4} width={'100%'}>

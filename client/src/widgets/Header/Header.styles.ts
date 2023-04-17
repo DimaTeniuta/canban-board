@@ -4,3 +4,8 @@ export const Toolbar = styled(MuiToolbar)(() => ({
   display: 'flex',
   justifyContent: 'space-between',
 }));
+
+export const WrapperLogoutBox = styled('div')(() => ({
+  display: 'flex',
+  columnGap: 20,
+}));

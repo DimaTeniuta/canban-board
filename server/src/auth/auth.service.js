@@ -4,16 +4,21 @@ import tokenService from "../token/token.service.js";
 import UserDto from './dto/auth.dto.js';
 
 class AuthService {
-  async registration(email, password) {
+  async registration(email, password, name) {
     const userBd = await authModel.findOne({ email });
     if (userBd) {
       return "The email has already existed";
     }
+  
+    const nameBd = await authModel.findOne({ name });
+    if (nameBd) {
+      return "The nick name has already existed";
+    }
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const user = await authModel.create({ email, password: hashPassword });
-    const userDto = new UserDto(user); // id, email
+    const user = await authModel.create({ email, password: hashPassword, name });
+    const userDto = new UserDto(user); // id, email, name
     const tokens = tokenService.generateToken({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
@@ -50,16 +55,13 @@ class AuthService {
   }
 
   async refresh(refreshToken) {
-    console.log(33, refreshToken);
     if (!refreshToken) {
-      console.log(4444);
       return 'Unauthorized';
     }
 
     const userData = tokenService.validateRefreshToken(refreshToken);
     const tokenFromDb = await tokenService.findToken(refreshToken);
     if (!userData || !tokenFromDb) {
-      console.log(5555);
       return 'Unauthorized';
     }
 

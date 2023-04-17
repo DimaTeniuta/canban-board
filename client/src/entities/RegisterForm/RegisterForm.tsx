@@ -31,6 +31,18 @@ const RegisterForm: FC<IRegisterFormProps> = ({ onSubmit, defaultValues }) => {
       </Typography>
 
       <TextField
+        {...register('name')}
+        fullWidth
+        label={'Name'}
+        margin="normal"
+        variant="outlined"
+        color="secondary"
+        type="name"
+        error={!!errors.name?.message}
+        helperText={errors.name?.message}
+      />
+
+      <TextField
         {...register('email')}
         fullWidth
         label={'Email'}

@@ -4,6 +4,5 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
 const app = new App([authRouter]);
 app.start();

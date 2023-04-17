@@ -2,8 +2,8 @@ import api from '../../api/api';
 import { IAuthResponse } from '../../types/authResponse';
 
 class AuthService {
-  register(email: string, password: string) {
-    return api.post<IAuthResponse>('/registration', { email, password });
+  register(email: string, password: string, name: string) {
+    return api.post<IAuthResponse>('/registration', { email, password, name });
   }
 
   login(email: string, password: string) {
