@@ -4,6 +4,7 @@ import { IUser } from '../../types/user';
 import authService from '../../services/authService/userService';
 import { IAuthResponse } from '../../types/authResponse';
 import { API_URL } from '../../api/api';
+import userService from '../../services/userService/userService';
 
 export default class UserStore {
   user: IUser | null = null;
@@ -77,6 +78,18 @@ export default class UserStore {
       const response = await authService.logout();
       console.log('logout', response);
       this.removeUserFromStore();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  public async getUsers() {
+    try {
+      this.setLoading(true);
+      const response = await userService.getAllUsers();
+      console.log('get users', response);
     } catch (err) {
       console.error(err);
     } finally {
