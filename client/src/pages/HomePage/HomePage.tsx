@@ -7,10 +7,13 @@ const HomePage = () => {
   // const handleClick = () => {
   //   userService.getUser(store.user?.user?.id || '').then((res) => console.log(222, res));
   // };
+  // const handleClick = () => {
+  //   userService
+  //     .updateUser(store.user?.user?.id || '', 'Dima2')
+  //     .then((res) => console.log(222, res));
+  // };
   const handleClick = () => {
-    userService
-      .updateUser(store.user?.user?.id || '', 'Dima2')
-      .then((res) => console.log(222, res));
+    userService.deleteUser(store.user?.user?.id || '').then((res) => console.log(222, res));
   };
 
   return (

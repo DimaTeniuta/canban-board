@@ -37,6 +37,20 @@ class UserController {
       next(error);
     }
   }
+
+  async deleteUser(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const id = req.params.id;
+      if (id !== userId) {
+        return next(res.status(400).json("Bad request"));
+      }
+      const response = await userService.deleteUser(userId);
+      res.json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 const userController = new UserController();

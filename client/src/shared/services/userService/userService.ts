@@ -12,6 +12,10 @@ class UserService {
   updateUser(id: string, name: string): Promise<void> {
     return api.put(`/users/${id}`, { name });
   }
+
+  deleteUser(id: string): Promise<void> {
+    return api.delete(`/users/${id}`);
+  }
 }
 
 const userService = new UserService();

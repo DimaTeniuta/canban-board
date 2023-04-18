@@ -16,6 +16,11 @@ class UserService {
     const user = await userModel.findById(userId);
     return user;
   }
+
+  async deleteUser(userId) {
+    await userModel.findOneAndDelete({ _id: userId });
+    return { message: 'success'};
+  }
 }
 
 const userService = new UserService();
