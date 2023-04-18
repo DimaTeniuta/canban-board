@@ -38,7 +38,6 @@ api.interceptors.response.use(
         console.log('Unauthorized');
       }
     }
-    console.log(333, error);
     notificationStore.openErrorAlert(error?.response?.data);
     return error;
   }
