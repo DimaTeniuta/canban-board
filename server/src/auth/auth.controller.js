@@ -75,18 +75,6 @@ class AuthController {
       next(error);
     }
   }
-
-  async getUsers(_, res, next) {
-    try {
-      const users = await authService.getAllUsers();
-      const filteredUsers = users.map((user) => {
-        return { email: user.email, id: user._id, name: user.name };
-      });
-      res.json(filteredUsers);
-    } catch (error) {
-      next(error);
-    }
-  }
 }
 
 const authController = new AuthController();

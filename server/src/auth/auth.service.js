@@ -1,24 +1,24 @@
-import authModel from "./auth.model.js";
+import userModel from "../user/user.model.js";
 import bcrypt from "bcrypt";
 import tokenService from "../token/token.service.js";
 import UserDto from './dto/auth.dto.js';
 
 class AuthService {
   async registration(email, password, name) {
-    const userBd = await authModel.findOne({ email });
+    const userBd = await userModel.findOne({ email });
     if (userBd) {
       return "The email has already existed";
     }
   
-    const nameBd = await authModel.findOne({ name });
+    const nameBd = await userModel.findOne({ name });
     if (nameBd) {
       return "The nick name has already existed";
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const user = await authModel.create({ email, password: hashPassword, name });
-    const userDto = new UserDto(user); // id, email, name
+    const user = await userModel.create({ email, password: hashPassword, name });
+    const userDto = new UserDto(user);
     const tokens = tokenService.generateToken({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
@@ -29,7 +29,7 @@ class AuthService {
   }
 
   async login(email, password) {
-    const user = await authModel.findOne({ email });
+    const user = await userModel.findOne({ email });
     if (!user) {
       return "Invalid email or password";
     }
@@ -65,7 +65,7 @@ class AuthService {
       return 'Unauthorized';
     }
 
-    const user = await authModel.findById(userData.id);
+    const user = await userModel.findById(userData.id);
     const userDto = new UserDto(user);
     const tokens = tokenService.generateToken({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
@@ -74,11 +74,6 @@ class AuthService {
       ...tokens,
       user: userDto,
     };
-  }
-
-  async getAllUsers() {
-    const users = await authModel.find();
-    return users;
   }
 }
 
