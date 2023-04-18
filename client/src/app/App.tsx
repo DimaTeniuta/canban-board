@@ -10,10 +10,7 @@ const App = () => {
   const loading = store.user.isLoading;
 
   useEffect(() => {
-    const checkUser = async () => {
-      await store.user.checkAuth();
-    };
-    checkUser();
+    store.user.checkAuth();
   }, []);
 
   return (

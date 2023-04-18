@@ -1,7 +1,12 @@
+import { Button } from '@mui/material';
 import React from 'react';
 
 const HomePage = () => {
-  return <main>HomePage</main>;
+  return (
+    <main>
+      HomePage <Button>click</Button>
+    </main>
+  );
 };
 
 export default HomePage;

@@ -80,7 +80,7 @@ class AuthController {
     try {
       const users = await authService.getAllUsers();
       const filteredUsers = users.map((user) => {
-        return { email: user.email, id: user._id };
+        return { email: user.email, id: user._id, name: user.name };
       });
       res.json(filteredUsers);
     } catch (error) {

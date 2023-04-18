@@ -91,6 +91,7 @@ export default class UserStore {
         withCredentials: true,
       });
       if (response.status === 200) {
+        console.log(111, response);
         this.setToken(response.data.accessToken);
         this.setAuth(true);
         this.setUser(response.data.user);
