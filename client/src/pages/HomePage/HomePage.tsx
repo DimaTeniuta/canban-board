@@ -10,7 +10,7 @@ const HomePage = () => {
 
   const handleClick = () => {
     columnService
-      .updateColumn('643e8678c6d84835f25382c4', '643f9f550c6993207bd21413', 'updated2')
+      .deleteColumn('643e8678c6d84835f25382c4', '643fc83a750de8b24ac58ae9')
       .then((res) => console.log(222, res));
   };
 

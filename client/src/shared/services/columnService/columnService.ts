@@ -12,6 +12,10 @@ class ColumnService {
   updateColumn(boardId: string, columnId: string, title: string): Promise<void> {
     return api.put(`/boards/${boardId}/columns/${columnId}`, { title });
   }
+
+  deleteColumn(boardId: string, columnId: string): Promise<void> {
+    return api.delete(`/boards/${boardId}/columns/${columnId}`);
+  }
 }
 
 const columnService = new ColumnService();

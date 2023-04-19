@@ -61,6 +61,43 @@ class ColumnController {
       next(error);
     }
   }
+
+  async updateColumnOrder(req, res, next) {
+    try {
+      const boardId = req.params.id;
+      const columnId = req.params.columnId;
+      const userId = req.user.id;
+      const { oldOrder, newOrder } = req.body;
+      const column = await columnService.updateColumnOrder(userId, boardId, columnId, oldOrder, newOrder);
+      if (typeof column === "string") {
+        if (column === 'Not Found') {
+          return res.status(404).json(column);
+        }
+        return res.status(400).json(column);
+      }
+      res.json(column);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteColumn(req, res, next) {
+    try {
+      const boardId = req.params.id;
+      const columnId = req.params.columnId;
+      const userId = req.user.id;
+      const column = await columnService.deleteColumn(userId, boardId, columnId);
+      if (typeof column === "string") {
+        if (column === 'Not Found') {
+          return res.status(404).json(column);
+        }
+        return res.status(400).json(column);
+      }
+      res.json(column);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 const columnController = new ColumnController();
