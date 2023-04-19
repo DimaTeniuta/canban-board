@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 export default class App {
   constructor(routes) {
     this.app = express();
-    this.port = process.env.PORT || 5000;
+    this.port = process.env.PORT || 2300;
     this.initApp();
     this.initRoutes(routes);
   }

@@ -3,12 +3,15 @@ import React from 'react';
 import store from '../../shared/store/root';
 import userService from '../../shared/services/userService/userService';
 import boardService from '../../shared/services/boardService/boardService';
+import columnService from '../../shared/services/columnService/columnService';
 
 const HomePage = () => {
   const userId = store.user.user!.id as string;
 
   const handleClick = () => {
-    boardService.deleteBoard('643e84c6c6d84835f25382ba').then((res) => console.log(222, res));
+    columnService
+      .updateColumn('643e8678c6d84835f25382c4', '643f9f550c6993207bd21413', 'updated2')
+      .then((res) => console.log(222, res));
   };
 
   return (

@@ -3,8 +3,9 @@ import authRouter from "./auth/auth.routes.js";
 import dotenv from "dotenv";
 import userRouter from "./user/user.routes.js";
 import boardRouter from "./board/board.routes.js";
+import columnRouter from "./column/column.routes.js";
 
 dotenv.config();
 
-const app = new App([authRouter, userRouter, boardRouter]);
+const app = new App([authRouter, userRouter, boardRouter, columnRouter]);
 app.start();
