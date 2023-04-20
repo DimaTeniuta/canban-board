@@ -118,6 +118,7 @@ class TaskService {
   }
 
   async updateTaskOrder(userId, boardId, columnId, oldOrder, newOrder) {
+    console.log(222, userId, boardId, columnId, oldOrder, newOrder);
     const board = await boardModel.findById(boardId);
     if (!board) {
       return "Not Found";
@@ -136,6 +137,7 @@ class TaskService {
       return "Bad request";
     }
     const oldTasks = await taskModel.find({ boardId });
+
     const newTasks = oldTasks
       .sort((a, b) => a.order - b.order)
       .map((task, index) => {
@@ -231,6 +233,65 @@ class TaskService {
       tasks: savedTasks,
     };
   }
+
+  async updateTaskColumn(userId, boardId, body) {
+    const { oldColumn, newColumn, taskId, oldOrder, newOrder } = body;
+    const board = await boardModel.findById(boardId);
+    if (!board) {
+      return "Not Found";
+    }
+    if (board.userId !== userId) {
+      return "Bad request";
+    }
+
+    const oldCol = await columnModel.findById(oldColumn);
+    if (!oldCol) {
+      return "Bad request";
+    }
+    if (oldCol.userId !== userId) {
+      return "Bad request";
+    }
+    if (oldCol.boardId !== boardId) {
+      return "Bad request";
+    }
+
+    const newCol = await columnModel.findById(newColumn);
+    if (!newCol) {
+      return "Bad request";
+    }
+    if (newCol.userId !== userId) {
+      return "Bad request";
+    }
+    if (newCol.boardId !== boardId) {
+      return "Bad request";
+    }
+
+    const newTasks = await taskModel.find({ columnId: newColumn });
+
+    const task = await taskModel.findOneAndUpdate({ _id: taskId }, {
+      columnId: newColumn,
+      order: newTasks.length,
+    });
+
+    if (!task) {
+      return "Not Found";
+    }
+
+    const updatedTask = await taskModel.findOne({ _id: taskId });
+    console.log(555, updatedTask);
+    await this.updateTaskOrder(
+      userId,
+      boardId,
+      newColumn,
+      updatedTask.order,
+      newOrder
+    );
+    const updatedBoard = await columnModel.find({ boardId });
+    return {
+      board: updatedBoard,
+    };
+  }
+
 }
 
 const taskService = new TaskService();

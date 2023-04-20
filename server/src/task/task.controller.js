@@ -127,6 +127,24 @@ class TaskController {
       next(error);
     }
   }
+
+  async updateTaskColumn(req, res, next) {
+    try {
+      const boardId = req.params.id;
+      const userId = req.user.id;
+      const { oldColumn, newColumn, taskId, oldOrder, newOrder } = req.body;
+      const tasks = await taskService.updateTaskColumn(userId, boardId, { oldColumn, newColumn, taskId, oldOrder, newOrder });
+      if (typeof tasks === "string") {
+        if (tasks === 'Not Found') {
+          return res.status(404).json(tasks);
+        }
+        return res.status(400).json(tasks);
+      }
+      res.json(tasks);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 const taskController = new TaskController();
