@@ -26,6 +26,15 @@ class TaskService {
     return api.put(`/boards/${boardId}/columns/${columnId}/tasks/${taskId}`, body);
   }
 
+  updateTaskOrder(
+    boardId: string,
+    columnId: string,
+    oldOrder: number,
+    newOrder: number
+  ): Promise<void> {
+    return api.put(`/boards/${boardId}/columns/${columnId}/order/tasks`, { oldOrder, newOrder });
+  }
+
   deleteTask(boardId: string, columnId: string, taskId: string): Promise<void> {
     return api.delete(`/boards/${boardId}/columns/${columnId}/tasks/${taskId}`);
   }

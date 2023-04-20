@@ -11,11 +11,7 @@ const HomePage = () => {
 
   const handleClick = () => {
     taskService
-      .deleteTask(
-        '643e8678c6d84835f25382c4',
-        '6440e9c56068c9988f60ede0',
-        '6440f5e74d3def6775375b4d'
-      )
+      .updateTaskOrder('643e8678c6d84835f25382c4', '6440e9c56068c9988f60ede0', 4, 2)
       .then((res) => console.log(222, res));
   };
 
