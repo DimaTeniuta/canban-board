@@ -128,7 +128,9 @@ class ColumnService {
     const newColumns = oldColumns
       .sort((a, b) => a.order - b.order)
       .map((column, index) => {
-        return { ...column, order: index };
+        const { _id, order } = column;
+        const tmpColumn = { _id, order };
+        return { ...tmpColumn, order: index };
       });
     await Promise.all(
       newColumns.map((el) => {

@@ -14,7 +14,7 @@ class ColumnService {
   }
 
   updateColumnOrder(boardId: string, oldOrder: number, newOrder: number): Promise<void> {
-    return api.put(`/boards/${boardId}/order`, { oldOrder, newOrder });
+    return api.put(`/boards/${boardId}/columns/order`, { oldOrder, newOrder });
   }
 
   deleteColumn(boardId: string, columnId: string): Promise<void> {
