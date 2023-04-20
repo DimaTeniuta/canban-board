@@ -13,6 +13,10 @@ class ColumnService {
     return api.put(`/boards/${boardId}/columns/${columnId}`, { title });
   }
 
+  updateColumnOrder(boardId: string, oldOrder: number, newOrder: number): Promise<void> {
+    return api.put(`/boards/${boardId}/order`, { oldOrder, newOrder });
+  }
+
   deleteColumn(boardId: string, columnId: string): Promise<void> {
     return api.delete(`/boards/${boardId}/columns/${columnId}`);
   }

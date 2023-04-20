@@ -10,8 +10,12 @@ const HomePage = () => {
 
   const handleClick = () => {
     columnService
-      .deleteColumn('643e8678c6d84835f25382c4', '643fc83a750de8b24ac58ae9')
+      .updateColumnOrder('643e8678c6d84835f25382c4', 2, 4)
       .then((res) => console.log(222, res));
+
+    // columnService
+    //   .createColumn('643e8678c6d84835f25382c4', 'test')
+    //   .then((res) => console.log(222, res));
   };
 
   return (

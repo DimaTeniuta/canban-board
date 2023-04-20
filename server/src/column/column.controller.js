@@ -65,10 +65,9 @@ class ColumnController {
   async updateColumnOrder(req, res, next) {
     try {
       const boardId = req.params.id;
-      const columnId = req.params.columnId;
       const userId = req.user.id;
       const { oldOrder, newOrder } = req.body;
-      const column = await columnService.updateColumnOrder(userId, boardId, columnId, oldOrder, newOrder);
+      const column = await columnService.updateColumnOrder(userId, boardId, oldOrder, newOrder);
       if (typeof column === "string") {
         if (column === 'Not Found') {
           return res.status(404).json(column);

@@ -21,7 +21,7 @@ class ColumnService {
   }
 
   async createColumn(userId, boardId, title) {
-    const board = await boardModel.findOne({ _id: boardId });
+    const board = await boardModel.findById(boardId);
     if (!board) {
       return "Not Found";
     }
@@ -32,7 +32,7 @@ class ColumnService {
     if (!columns) {
       return "Bad request";
     }
-    const order = columns.length + 1;
+    const order = columns.length;
     const column = await columnModel.create({ title, order, userId, boardId });
     const columnDto = new ColumnDto(column);
     return {
@@ -61,33 +61,35 @@ class ColumnService {
     };
   }
 
-  async updateColumnOrder(userId, boardId, columnId, oldOrder, newOrder) {
-    const board = await boardModel.findOne({ _id: boardId });
+  async updateColumnOrder(userId, boardId, oldOrder, newOrder) {
+    const board = await boardModel.findById(boardId);
     if (!board) {
       return "Not Found";
     }
     if (board.userId !== userId) {
       return "Bad request";
     }
-    const oldColumns = await columnModel.findById({ boardId });
-    const newColumns = oldColumns.map((column, index) => {
+    const oldColumns = await columnModel.find({ boardId });
+    const newColumns = oldColumns.sort((a, b) => a.order - b.order).map((column, index) => {
+      const { _id, userId, boardId, title, order} = column;
+      const tmpColumn = { _id, userId, boardId, title, order};
       if (oldOrder < newOrder) {
         if (index === oldOrder) {
-          return { ...column, order: newOrder };
+          return { ...tmpColumn, order: newOrder};
         } else if (index === newOrder) {
-          return { ...column, order: column.order + 1 };
-        } else if (index > newOrder && index < oldOrder) {
-          return { ...column, order: column.order + 1 };
+          return { ...tmpColumn, order: column.order - 1}
+        } else if (index < newOrder && index > oldOrder) {
+          return { ...tmpColumn, order: column.order - 1};
         } else {
           return column;
         }
       } else if (oldOrder > newOrder) {
         if (index === oldOrder) {
-          return { ...column, order: newOrder };
+          return { ...tmpColumn, order: newOrder};
         } else if (index === newOrder) {
-          return { ...column, order: column.order - 1 };
-        } else if (index < newOrder && index > oldOrder) {
-          return { ...column, order: column.order - 1 };
+          return { ...tmpColumn, order: column.order + 1};
+        } else if (index > newOrder && index < oldOrder) {
+          return { ...tmpColumn, order: column.order + 1};
         } else {
           return column;
         }
@@ -104,10 +106,7 @@ class ColumnService {
       })
     );
 
-    const savedColumns = await columnModel
-      .find({ boardId })
-      .sort((a, b) => a.order - b.order);
-  
+    const savedColumns = await columnModel.find({ boardId });
     return {
       columns: savedColumns,
     };
