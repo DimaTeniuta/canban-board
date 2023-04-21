@@ -13,18 +13,20 @@ const HomePage = () => {
     taskService
       .updateTaskColumn(
         '643e8678c6d84835f25382c4',
-        '6440e9c56068c9988f60ede0',
+
         '6440e9c56068c9988f60ede4',
-        '64414b72b8a72fa11866a5ba',
-        8,
+        '6440e9c56068c9988f60ede0',
+
+        '644236f8be0334b8dd08bd1a',
+        1,
         2
       )
       .then((res) => console.log(222, res));
 
     // taskService
-    //   .createTask('643e8678c6d84835f25382c4', '6440e9c56068c9988f60ede4', {
-    //     title: 'col2',
-    //     description: 'bb',
+    //   .createTask('643e8678c6d84835f25382c4', '6440e9c56068c9988f60ede0', {
+    //     title: 'col1',
+    //     description: 'aaaaaaaaaaaaaaaaaaaaaaaaaa',
     //   })
     //   .then((res) => console.log(222, res));
   };

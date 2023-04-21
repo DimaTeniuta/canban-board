@@ -132,7 +132,9 @@ class TaskController {
     try {
       const boardId = req.params.id;
       const userId = req.user.id;
-      const { oldColumn, newColumn, taskId, oldOrder, newOrder } = req.body;
+      const oldColumn = req.params.columnOldId;
+      const newColumn = req.params.columnNewId;
+      const { taskId, oldOrder, newOrder } = req.body;
       const tasks = await taskService.updateTaskColumn(userId, boardId, { oldColumn, newColumn, taskId, oldOrder, newOrder });
       if (typeof tasks === "string") {
         if (tasks === 'Not Found') {

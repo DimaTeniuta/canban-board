@@ -118,7 +118,7 @@ class TaskService {
   }
 
   async updateTaskOrder(userId, boardId, columnId, oldOrder, newOrder) {
-    console.log(222, userId, boardId, columnId, oldOrder, newOrder);
+    console.log(888, userId, boardId, columnId, oldOrder, newOrder);
     const board = await boardModel.findById(boardId);
     if (!board) {
       return "Not Found";
@@ -136,7 +136,8 @@ class TaskService {
     if (column.boardId !== boardId) {
       return "Bad request";
     }
-    const oldTasks = await taskModel.find({ boardId });
+    const oldTasks = await taskModel.find({ columnId });
+    console.log(999, oldTasks);
 
     const newTasks = oldTasks
       .sort((a, b) => a.order - b.order)
@@ -174,6 +175,8 @@ class TaskService {
           }
         }
       });
+
+      console.log(777, newTasks);
 
     await Promise.all(
       newTasks.map((el) => {
@@ -236,6 +239,7 @@ class TaskService {
 
   async updateTaskColumn(userId, boardId, body) {
     const { oldColumn, newColumn, taskId, oldOrder, newOrder } = body;
+    console.log(111,  userId, boardId, oldColumn, newColumn, taskId, oldOrder, newOrder);
     const board = await boardModel.findById(boardId);
     if (!board) {
       return "Not Found";
@@ -267,6 +271,7 @@ class TaskService {
     }
 
     const newTasks = await taskModel.find({ columnId: newColumn });
+    console.log(333, newTasks);
 
     const task = await taskModel.findOneAndUpdate({ _id: taskId }, {
       columnId: newColumn,
@@ -277,21 +282,19 @@ class TaskService {
       return "Not Found";
     }
 
-    const updatedTask = await taskModel.findOne({ _id: taskId });
-    console.log(555, updatedTask);
-    await this.updateTaskOrder(
+    const updatedTask = await taskModel.findById(taskId);
+    console.log(555, updatedTask.order, newOrder);
+
+    const res = await this.updateTaskOrder(
       userId,
       boardId,
       newColumn,
       updatedTask.order,
       newOrder
     );
-    const updatedBoard = await columnModel.find({ boardId });
-    return {
-      board: updatedBoard,
-    };
+ 
+    return res;
   }
-
 }
 
 const taskService = new TaskService();

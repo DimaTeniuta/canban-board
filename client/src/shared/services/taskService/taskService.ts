@@ -37,15 +37,13 @@ class TaskService {
 
   updateTaskColumn(
     boardId: string,
-    oldColumn: string,
-    newColumn: string,
+    oldColumnId: string,
+    newColumnId: string,
     taskId: string,
     oldOrder: number,
     newOrder: number
   ): Promise<void> {
-    return api.put(`/boards/${boardId}/columns/tasks/order/column/order`, {
-      oldColumn,
-      newColumn,
+    return api.put(`/boards/${boardId}/columns/${oldColumnId}/${newColumnId}/order/tasks`, {
       taskId,
       oldOrder,
       newOrder,
