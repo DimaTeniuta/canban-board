@@ -1,17 +1,18 @@
 import { validationResult } from "express-validator";
 import authService from "./auth.service.js";
+import errorService from "../exceptions/error.service.js";
 
 class AuthController {
   async registration(req, res, next) {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(res.status(400).json("Validation error"));
+        return next(res.status(400).json(errorService.setError(errors.errors[0].msg)));
       }
       const { email, password, name } = req.body;
       const userData = await authService.registration(email, password, name);
       if (typeof userData === "string") {
-        res.status(400).json(userData);
+        res.status(400).json(errorService.setError(userData));
       } else {
         res.cookie("refreshToken", userData.refreshToken, {
           maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -28,12 +29,12 @@ class AuthController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(res.status(400).json("Validation error"));
+        return next(res.status(400).json(errorService.setError(errors.errors[0].msg)));
       }
       const { email, password } = req.body;
       const userData = await authService.login(email, password);
       if (typeof userData === "string") {
-        res.status(400).json(userData);
+        res.status(400).json(errorService.setError(userData));
       } else {
         res.cookie("refreshToken", userData.refreshToken, {
           maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -63,7 +64,7 @@ class AuthController {
       const { refreshToken } = req.cookies;
       const userData = await authService.refresh(refreshToken);
       if (typeof userData === "string") {
-        res.status(401).json(userData);
+        res.status(401).json(errorService.setError(userData));
       } else {
         res.cookie("refreshToken", userData.refreshToken, {
           maxAge: 30 * 24 * 60 * 60 * 1000,

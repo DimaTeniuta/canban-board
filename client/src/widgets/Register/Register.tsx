@@ -13,8 +13,8 @@ const Register = () => {
 
   const handleSubmit = async (inputs: IFormRegisterInput) => {
     console.log('submit', inputs);
-    await store.user.registration(inputs.email, inputs.password, inputs.name);
-    navigate(`/home`, { replace: true });
+    const res = await store.user.registration(inputs.email, '123', inputs.name);
+    res && navigate(`/home`, { replace: true });
   };
 
   return (

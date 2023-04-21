@@ -40,7 +40,9 @@ export default class UserStore {
         this.setToken(response.data.accessToken);
         this.setAuth(true);
         this.setUser(response.data.user);
+        return true;
       }
+      return false;
     } catch (err) {
       console.error(err);
     } finally {
