@@ -6,10 +6,12 @@ import AuthNav from '../../features/AuthNav';
 import store from '../../shared/store/root';
 import LogoutBox from '../../features/LogoutBox/LogoutBox';
 import UserName from '../../entities/UserName/UserName';
+import { useStoreSelector } from '../../shared/hooks/store.hooks';
+import { selectUser } from '../../shared/store/slices/userSlice';
 import * as Styled from './Header.styles';
 
 const Header = () => {
-  const isAuth = store.user.isAuth;
+  const { isAuth } = useStoreSelector(selectUser);
 
   return (
     <AppBar position="fixed">

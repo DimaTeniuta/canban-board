@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
-import { observer } from 'mobx-react-lite';
-import { notificationStore } from '../../store/notificationStore/notificationStore';
+import { useStoreSelector } from '../../hooks/store.hooks';
+import { closeAlert, selectNotifier } from '../../store/slices/notifierSlice';
 import * as Styled from './Notifier.styles';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
@@ -10,11 +10,11 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 });
 
 const Notifier = () => {
-  const alertArray = notificationStore.alertArray;
+  const { alertArray } = useStoreSelector(selectNotifier);
   const containerRef = useRef(null);
 
   const handleClose = (id: number) => {
-    return () => notificationStore.closeAlert(id);
+    return () => closeAlert(id);
   };
 
   return (
@@ -22,7 +22,7 @@ const Notifier = () => {
       {alertArray.map(({ id, type, message }) => (
         <>
           <Slide key={id} direction="up" in={true} container={containerRef.current}>
-            <Alert onClose={handleClose(id)} severity={type} sx={{ width: '100%' }}>
+            <Alert key={id} onClose={handleClose(id)} severity={type} sx={{ width: '100%' }}>
               {message}
             </Alert>
           </Slide>
@@ -32,4 +32,4 @@ const Notifier = () => {
   );
 };
 
-export default observer(Notifier);
+export default Notifier;

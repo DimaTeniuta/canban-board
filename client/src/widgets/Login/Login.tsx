@@ -6,15 +6,26 @@ import AuthRouteLink from '../../shared/UI/AuthRouteLink/AuthRouteLink';
 import store from '../../shared/store/root';
 import LoginForm from '../../entities/LoginForm';
 import { IFormLoginInput } from '../../entities/LoginForm/LoginForm.types';
+import { useLogInMutation } from '../../shared/store/api/endpoints/auth.endpoints';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { setUser } from '../../shared/store/slices/userSlice';
 import * as Styled from './Login.styles';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [logIn] = useLogInMutation();
+  const dispatch = useStoreDispatch();
 
-  const handleSubmit = async (inputs: IFormLoginInput) => {
+  const handleSubmit = (inputs: IFormLoginInput) => {
     console.log('submit', inputs);
-    await store.user.login(inputs.email, inputs.password);
-    navigate(`/home`, { replace: true });
+    // await store.user.login(inputs.email, inputs.password);
+    logIn(inputs)
+      .unwrap()
+      .then((res) => {
+        console.log(111, res);
+        dispatch(setUser(res));
+        navigate(`/home`, { replace: true });
+      });
   };
 
   return (
@@ -36,4 +47,4 @@ const Login = () => {
   );
 };
 
-export default observer(Login);
+export default Login;

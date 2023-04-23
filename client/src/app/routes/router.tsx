@@ -2,7 +2,8 @@ import React, { lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Layout } from '../Layout';
-import store from '../../shared/store/root';
+import { selectUser } from '../../shared/store/slices/userSlice';
+import { useStoreSelector } from '../../shared/hooks/store.hooks';
 import { PublicRouteGuard } from './PublicRouteGuard';
 import { PrivateRouteGuard } from './PrivateRouteGuard';
 
@@ -11,7 +12,7 @@ const RegisterPage = lazy(() => import('../../pages/RegisterPage'));
 const HomePage = lazy(() => import('../../pages/HomePage'));
 
 const Router = () => {
-  const isAuth = store.user.isAuth;
+  const { isAuth } = useStoreSelector(selectUser);
 
   return (
     <BrowserRouter>

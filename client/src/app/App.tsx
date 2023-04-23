@@ -1,23 +1,24 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import store from '../shared/store/root';
+import { Provider } from 'react-redux';
 import Spinner from '../shared/UI/Spinner/Spinner';
+import { store } from '../shared/store/store';
 import light from './theme/main';
 import Router from './routes/router';
 
 const App = () => {
-  const loading = store.user.isLoading;
-
   useEffect(() => {
-    store.user.checkAuth();
+    // store.user.checkAuth();
   }, []);
 
   return (
-    <ThemeProvider theme={light}>
-      <CssBaseline />
-      {loading ? <Spinner /> : <Router />}
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={light}>
+        <CssBaseline />
+        <Router />
+      </ThemeProvider>
+    </Provider>
   );
 };
 
