@@ -1,20 +1,27 @@
 import { Grid } from '@mui/material';
 import React from 'react';
-import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import RegisterForm from '../../entities/RegisterForm/RegisterForm';
 import AuthRouteLink from '../../shared/UI/AuthRouteLink/AuthRouteLink';
 import { IFormRegisterInput } from '../../entities/RegisterForm/RegisterForm.types';
-import store from '../../shared/store/root';
+import { useRegisterMutation } from '../../shared/store/api/endpoints/auth.endpoints';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { setUser } from '../../shared/store/slices/userSlice';
 import * as Styled from './Register.styles';
 
 const Register = () => {
   const navigate = useNavigate();
+  const [register] = useRegisterMutation();
+  const dispatch = useStoreDispatch();
 
-  const handleSubmit = async (inputs: IFormRegisterInput) => {
+  const handleSubmit = (inputs: IFormRegisterInput) => {
     console.log('submit', inputs);
-    const res = await store.user.registration(inputs.email, '123', inputs.name);
-    res && navigate(`/home`, { replace: true });
+    register(inputs)
+      .unwrap()
+      .then((res) => {
+        dispatch(setUser(res));
+        navigate(`/home`, { replace: true });
+      });
   };
 
   return (
@@ -39,4 +46,4 @@ const Register = () => {
   );
 };
 
-export default observer(Register);
+export default Register;

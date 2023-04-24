@@ -1,17 +1,14 @@
 import { AppBar, Container } from '@mui/material';
 import React from 'react';
-import { observer } from 'mobx-react-lite';
 import Logo from '../../shared/UI/Logo';
 import AuthNav from '../../features/AuthNav';
-import store from '../../shared/store/root';
 import LogoutBox from '../../features/LogoutBox/LogoutBox';
 import UserName from '../../entities/UserName/UserName';
-import { useStoreSelector } from '../../shared/hooks/store.hooks';
-import { selectUser } from '../../shared/store/slices/userSlice';
+import useUser from '../../shared/hooks/useUser';
 import * as Styled from './Header.styles';
 
 const Header = () => {
-  const { isAuth } = useStoreSelector(selectUser);
+  const { isAuth } = useUser();
 
   return (
     <AppBar position="fixed">
@@ -32,4 +29,4 @@ const Header = () => {
   );
 };
 
-export default observer(Header);
+export default Header;

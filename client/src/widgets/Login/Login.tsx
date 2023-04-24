@@ -1,9 +1,7 @@
 import { Grid } from '@mui/material';
 import React from 'react';
-import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import AuthRouteLink from '../../shared/UI/AuthRouteLink/AuthRouteLink';
-import store from '../../shared/store/root';
 import LoginForm from '../../entities/LoginForm';
 import { IFormLoginInput } from '../../entities/LoginForm/LoginForm.types';
 import { useLogInMutation } from '../../shared/store/api/endpoints/auth.endpoints';
@@ -18,13 +16,14 @@ const Login = () => {
 
   const handleSubmit = (inputs: IFormLoginInput) => {
     console.log('submit', inputs);
-    // await store.user.login(inputs.email, inputs.password);
     logIn(inputs)
       .unwrap()
       .then((res) => {
-        console.log(111, res);
         dispatch(setUser(res));
         navigate(`/home`, { replace: true });
+      })
+      .catch((err) => {
+        console.log(3333, err);
       });
   };
 

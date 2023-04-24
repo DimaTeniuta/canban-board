@@ -1,15 +1,15 @@
 import React from 'react';
-import store from '../../shared/store/root';
+import useUser from '../../shared/hooks/useUser';
 import * as Styled from './UserName.styles';
 
 const UserName = () => {
-  const userName = store.user.user?.name;
+  const { user } = useUser();
 
   return (
     <Styled.WrapProfileButtons>
-      <Styled.UserName>{userName}</Styled.UserName>
+      <Styled.UserName>{user?.name}</Styled.UserName>
       <Styled.AvatarProfileButtons>
-        {userName && userName[0].toUpperCase()}
+        {user?.name && user?.name[0].toUpperCase()}
       </Styled.AvatarProfileButtons>
     </Styled.WrapProfileButtons>
   );

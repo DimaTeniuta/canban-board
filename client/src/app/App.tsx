@@ -1,25 +1,42 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import React, { useEffect } from 'react';
-import { observer } from 'mobx-react-lite';
-import { Provider } from 'react-redux';
+import { SnackbarProvider } from 'notistack';
 import Spinner from '../shared/UI/Spinner/Spinner';
-import { store } from '../shared/store/store';
+import { useCheckAuthMutation } from '../shared/store/api/endpoints/auth.endpoints';
+import { useStoreDispatch } from '../shared/hooks/store.hooks';
+import { setUser } from '../shared/store/slices/userSlice';
+import { SnackbarUtilsConfigurator } from '../shared/utils/snackBar';
+import useUser from '../shared/hooks/useUser';
 import light from './theme/main';
 import Router from './routes/router';
 
 const App = () => {
+  const [checkAuth, { isLoading }] = useCheckAuthMutation();
+  const dispatch = useStoreDispatch();
+  const { token } = useUser();
+
   useEffect(() => {
-    // store.user.checkAuth();
-  }, []);
+    if (!token) return;
+    checkAuth(null)
+      .unwrap()
+      .then((res) => {
+        dispatch(setUser(res));
+      });
+  }, [checkAuth, dispatch, token]);
 
   return (
-    <Provider store={store}>
+    <SnackbarProvider
+      maxSnack={7}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      autoHideDuration={5000}
+    >
       <ThemeProvider theme={light}>
         <CssBaseline />
-        <Router />
+        <SnackbarUtilsConfigurator />
+        {isLoading ? <Spinner /> : <Router />}
       </ThemeProvider>
-    </Provider>
+    </SnackbarProvider>
   );
 };
 
-export default observer(App);
+export default App;

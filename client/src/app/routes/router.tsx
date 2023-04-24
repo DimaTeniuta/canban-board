@@ -1,9 +1,7 @@
 import React, { lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
 import { Layout } from '../Layout';
-import { selectUser } from '../../shared/store/slices/userSlice';
-import { useStoreSelector } from '../../shared/hooks/store.hooks';
+import useUser from '../../shared/hooks/useUser';
 import { PublicRouteGuard } from './PublicRouteGuard';
 import { PrivateRouteGuard } from './PrivateRouteGuard';
 
@@ -12,7 +10,7 @@ const RegisterPage = lazy(() => import('../../pages/RegisterPage'));
 const HomePage = lazy(() => import('../../pages/HomePage'));
 
 const Router = () => {
-  const { isAuth } = useStoreSelector(selectUser);
+  const { isAuth } = useUser();
 
   return (
     <BrowserRouter>
@@ -54,4 +52,4 @@ const Router = () => {
   );
 };
 
-export default observer(Router);
+export default Router;

@@ -1,11 +1,12 @@
 import { Button } from '@mui/material';
 import React from 'react';
-import { observer } from 'mobx-react-lite';
-import store from '../../shared/store/root';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { clearUser } from '../../shared/store/slices/userSlice';
 
 const LogoutBox = () => {
+  const dispatch = useStoreDispatch();
   const handleLogout = () => {
-    store.user.logout();
+    dispatch(clearUser());
   };
 
   return (
@@ -15,4 +16,4 @@ const LogoutBox = () => {
   );
 };
 
-export default observer(LogoutBox);
+export default LogoutBox;
