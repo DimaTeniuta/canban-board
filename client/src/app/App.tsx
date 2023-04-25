@@ -8,7 +8,7 @@ import { setUser } from '../shared/store/slices/userSlice/userSlice';
 import { SnackbarUtilsConfigurator } from '../shared/utils/snackBar';
 import useUser from '../shared/hooks/useUser';
 import light from './theme/main';
-import Router from './routes/router';
+import Router from './routes/AppRouter';
 
 const App = () => {
   const [checkAuth, { isLoading }] = useLazyCheckAuthQuery();

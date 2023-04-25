@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Divider, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
+import { useNavigate } from 'react-router-dom';
 import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import CreateBoard from '../CreateBoard/CreateBoard';
@@ -11,6 +13,7 @@ export const BurgerMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const dispatch = useStoreDispatch();
+  const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -18,6 +21,10 @@ export const BurgerMenu = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleGoToBoards = () => {
+    navigate('/boards');
   };
 
   const handleCreateBoard = () => {
@@ -52,6 +59,13 @@ export const BurgerMenu = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+        <MenuItem onClick={handleGoToBoards}>
+          <DashboardIcon sx={Styled.IconStyleBurgerButtons} />
+          Boards Page
+        </MenuItem>
+
+        <Divider />
+
         <MenuItem onClick={handleCreateBoard}>
           <DashboardCustomizeIcon sx={Styled.IconStyleBurgerButtons} />
           Create Board

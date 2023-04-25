@@ -49,9 +49,3 @@ export const ButtonWrap = styled('div')({
   columnGap: 5,
   flexGrow: 0,
 });
-
-export const ButtonActionsWrap = styled('div')({
-  display: 'flex',
-  alignItems: 'center',
-  columnGap: 5,
-});

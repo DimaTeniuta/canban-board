@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { Layout } from '../Layout';
 import useUser from '../../shared/hooks/useUser';
 import { PublicRouteGuard } from './PublicRouteGuard';
@@ -7,9 +7,10 @@ import { PrivateRouteGuard } from './PrivateRouteGuard';
 
 const LoginPage = lazy(() => import('../../pages/LoginPage'));
 const RegisterPage = lazy(() => import('../../pages/RegisterPage'));
-const BoardPage = lazy(() => import('../../pages/BoardsPage'));
+const BoardsPage = lazy(() => import('../../pages/BoardsPage'));
+const BoardPage = lazy(() => import('../../pages/BoardPage'));
 
-const Router = () => {
+const AppRouter = () => {
   const { isAuth } = useUser();
 
   return (
@@ -38,18 +39,14 @@ const Router = () => {
               </PublicRouteGuard>
             }
           />
-          <Route
-            path="boards"
-            element={
-              <PrivateRouteGuard>
-                <BoardPage />
-              </PrivateRouteGuard>
-            }
-          />
+          <Route path="boards" element={<PrivateRouteGuard>{<Outlet />}</PrivateRouteGuard>}>
+            <Route index element={<BoardsPage />} />
+            <Route path=":id" element={<BoardPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
   );
 };
 
-export default Router;
+export default AppRouter;

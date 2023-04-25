@@ -1,3 +1,5 @@
+import columnModel from "../column/column.model.js";
+import taskModel from "../task/task.model.js";
 import boardModel from "./board.model.js";
 import BoardDto from "./dto/board.dto.js";
 
@@ -45,7 +47,11 @@ class BoardService {
     if (userId !== board.userId) {
       return "Bad request";
     }
+
     await boardModel.deleteOne({ _id: boardId });
+    await columnModel.deleteMany({ boardId: boardId });
+    await taskModel.deleteMany({ boardId: boardId });
+
     return {
       message: "success",
     };

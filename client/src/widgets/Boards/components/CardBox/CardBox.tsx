@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
-import UpdateButton from '../../UI/UpdateButton/UpdateButton';
-import DeleteButton from '../../UI/DeleteButton/DeleteButton';
-import GoToButton from '../../UI/GoToButton/GoToButton';
+import GoToButton from '../../../../shared/UI/GoToButton/GoToButton';
+import ActionsButtons from '../../../../shared/components/ActionsButtons/ActionsButtons';
 import * as Styled from './CardBox.styles';
 import { ICardBoxProps } from './CardBox.types';
 
@@ -13,10 +12,7 @@ const CardBox: FC<ICardBoxProps> = ({ title, description, onUpdate, onDelete, pa
         <Styled.Description>{description}</Styled.Description>
         <Styled.ButtonWrap>
           <GoToButton path={path} />
-          <Styled.ButtonActionsWrap>
-            <UpdateButton onAction={onUpdate} />
-            <DeleteButton onAction={onDelete} />
-          </Styled.ButtonActionsWrap>
+          <ActionsButtons onUpdate={onUpdate} onDelete={onDelete} />
         </Styled.ButtonWrap>
       </Styled.ContentWrap>
     </Styled.PaperContainer>

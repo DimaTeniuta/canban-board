@@ -5,11 +5,11 @@ import {
   useGetAllBoardsQuery,
 } from '../../shared/store/api/endpoints/board.endpoints';
 import Spinner from '../../shared/UI/Spinner/Spinner';
-import CardBox from '../../shared/components/CardBox/CardBox';
 import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import UpdateBoard from '../../features/UpdateBoard';
 import { IBoard } from '../../shared/types/board';
+import CardBox from './components/CardBox/CardBox';
 import * as Styled from './Boards.styles';
 
 const Boards = () => {
@@ -52,7 +52,7 @@ const Boards = () => {
             description={board.description}
             onUpdate={handleUpdate(board)}
             onDelete={handleDelete(board.id)}
-            path={`boards/${board.id}`}
+            path={`${board.id}`}
           />
         ))
       )}

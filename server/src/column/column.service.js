@@ -11,13 +11,11 @@ class ColumnService {
     if (board.userId !== userId) {
       return "Bad request";
     }
+
     const columns = await columnModel.find({ boardId });
-    if (!columns) {
-      return "Bad request";
-    }
-    return {
-      column: columns,
-    };
+    const columnsDto = columns.map((column) => new ColumnDto(column));
+  
+    return columnsDto;
   }
 
   async createColumn(userId, boardId, title) {
@@ -35,9 +33,8 @@ class ColumnService {
     const order = columns.length;
     const column = await columnModel.create({ title, order, userId, boardId });
     const columnDto = new ColumnDto(column);
-    return {
-      column: columnDto,
-    };
+  
+    return columnDto;
   }
 
   async updateColumn(userId, boardId, columnId, title) {
@@ -70,31 +67,33 @@ class ColumnService {
       return "Bad request";
     }
     const oldColumns = await columnModel.find({ boardId });
-    const newColumns = oldColumns.sort((a, b) => a.order - b.order).map((column, index) => {
-      const { _id, userId, boardId, title, order} = column;
-      const tmpColumn = { _id, userId, boardId, title, order};
-      if (oldOrder < newOrder) {
-        if (index === oldOrder) {
-          return { ...tmpColumn, order: newOrder};
-        } else if (index === newOrder) {
-          return { ...tmpColumn, order: column.order - 1}
-        } else if (index < newOrder && index > oldOrder) {
-          return { ...tmpColumn, order: column.order - 1};
-        } else {
-          return column;
+    const newColumns = oldColumns
+      .sort((a, b) => a.order - b.order)
+      .map((column, index) => {
+        const { _id, userId, boardId, title, order } = column;
+        const tmpColumn = { _id, userId, boardId, title, order };
+        if (oldOrder < newOrder) {
+          if (index === oldOrder) {
+            return { ...tmpColumn, order: newOrder };
+          } else if (index === newOrder) {
+            return { ...tmpColumn, order: column.order - 1 };
+          } else if (index < newOrder && index > oldOrder) {
+            return { ...tmpColumn, order: column.order - 1 };
+          } else {
+            return column;
+          }
+        } else if (oldOrder > newOrder) {
+          if (index === oldOrder) {
+            return { ...tmpColumn, order: newOrder };
+          } else if (index === newOrder) {
+            return { ...tmpColumn, order: column.order + 1 };
+          } else if (index > newOrder && index < oldOrder) {
+            return { ...tmpColumn, order: column.order + 1 };
+          } else {
+            return column;
+          }
         }
-      } else if (oldOrder > newOrder) {
-        if (index === oldOrder) {
-          return { ...tmpColumn, order: newOrder};
-        } else if (index === newOrder) {
-          return { ...tmpColumn, order: column.order + 1};
-        } else if (index > newOrder && index < oldOrder) {
-          return { ...tmpColumn, order: column.order + 1};
-        } else {
-          return column;
-        }
-      }
-    });
+      });
 
     await Promise.all(
       newColumns.map((el) => {

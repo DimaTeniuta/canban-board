@@ -1,3 +1,4 @@
+import errorService from "../exceptions/error.service.js";
 import columnService from "./column.service.js";
 import { validationResult } from "express-validator";
 
@@ -6,7 +7,7 @@ class ColumnController {
     try {
         const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(res.status(400).json("Validation error"));
+        return next(res.status(400).json(errorService.setError(errors.errors[0].msg)));
       }
       const boardId = req.params.id;
       const userId = req.user.id;
@@ -21,7 +22,7 @@ class ColumnController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(res.status(400).json("Validation error"));
+        return next(res.status(400).json(errorService.setError(errors.errors[0].msg)));
       }
       const boardId = req.params.id;
       const userId = req.user.id;
@@ -29,9 +30,9 @@ class ColumnController {
       const column = await columnService.createColumn(userId, boardId, title);
       if (typeof column === "string") {
         if (column === 'Not Found') {
-          return res.status(404).json(column);
+          return res.status(404).json(errorService.setError(column));
         }
-        return res.status(400).json(column);
+        return res.status(400).json(errorService.setError(column));
       }
       res.json(column);
     } catch (error) {

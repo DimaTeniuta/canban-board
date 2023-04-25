@@ -1,12 +1,13 @@
 import { styled } from '@mui/material';
 
 export const Container = styled('div')({
+  position: 'relative',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: 10,
-  flexWrap: 'wrap',
-  width: '100%',
+  columnGap: 10,
+  flexWrap: 'nowrap',
   minHeight: 'calc(100vh - 160px)',
   margin: '20px auto 0 auto',
+  border: '1px solid red',
 });
