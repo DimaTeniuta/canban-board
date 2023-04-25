@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import AuthRouteLink from '../../shared/UI/AuthRouteLink/AuthRouteLink';
 import LoginForm from '../../entities/LoginForm';
 import { IFormLoginInput } from '../../entities/LoginForm/LoginForm.types';
@@ -13,16 +14,17 @@ const Login = () => {
   const navigate = useNavigate();
   const [logIn] = useLogInMutation();
   const dispatch = useStoreDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = (inputs: IFormLoginInput) => {
     logIn(inputs)
       .unwrap()
       .then((res) => {
         dispatch(setUser(res));
-        navigate(`/home`, { replace: true });
+        navigate(`/boards`, { replace: true });
       })
       .catch((err) => {
-        console.log(3333, err);
+        enqueueSnackbar(err.data.errorMessage, { variant: 'error' });
       });
   };
 

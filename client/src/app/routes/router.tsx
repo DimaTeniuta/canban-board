@@ -19,7 +19,7 @@ const Router = () => {
           <Route
             index
             element={
-              isAuth ? <Navigate to={'/home'} replace /> : <Navigate to={'/login'} replace />
+              isAuth ? <Navigate to={'/boards'} replace /> : <Navigate to={'/login'} replace />
             }
           />
           <Route
@@ -39,7 +39,7 @@ const Router = () => {
             }
           />
           <Route
-            path="home"
+            path="boards"
             element={
               <PrivateRouteGuard>
                 <BoardPage />

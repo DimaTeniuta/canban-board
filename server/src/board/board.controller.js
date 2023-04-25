@@ -54,9 +54,9 @@ class BoardController {
       });
       if (typeof board === "string") {
         if (board === 'Not Found') {
-          return res.status(404).json(board);
+          return res.status(404).json(errorService.setError(board));
         }
-        return res.status(400).json(board);
+        return res.status(400).json(errorService.setError(board));
       }
       res.json(board);
     } catch (error) {

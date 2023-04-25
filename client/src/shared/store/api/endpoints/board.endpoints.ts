@@ -1,4 +1,4 @@
-import { IBoardRequest, IBoard } from '../../../types/board';
+import { IBoardRequest, IBoard, IBoardUpdateRequest } from '../../../types/board';
 import { apiConfig } from '../apiConfig';
 
 const extendedApiSlice = apiConfig.injectEndpoints({
@@ -19,7 +19,29 @@ const extendedApiSlice = apiConfig.injectEndpoints({
       }),
       invalidatesTags: ['Board'],
     }),
+
+    updateBoard: builder.mutation<IBoard, IBoardUpdateRequest>({
+      query: ({ id, data }) => ({
+        url: `boards/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: (_, __, arg) => [{ type: 'Board', id: arg.id }],
+    }),
+
+    deleteBoard: builder.mutation<IBoard, string>({
+      query: (id) => ({
+        url: `boards/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_, __, arg) => [{ type: 'Board', id: arg }],
+    }),
   }),
 });
 
-export const { useCreateBoardMutation, useGetAllBoardsQuery } = extendedApiSlice;
+export const {
+  useCreateBoardMutation,
+  useGetAllBoardsQuery,
+  useUpdateBoardMutation,
+  useDeleteBoardMutation,
+} = extendedApiSlice;

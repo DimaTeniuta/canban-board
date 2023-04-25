@@ -28,13 +28,13 @@ class BoardService {
     if (userId !== board.userId) {
       return "Bad request";
     }
+
     const { title, description } = body;
     await boardModel.updateOne({ _id: boardId }, { title, description });
+
     const res = await boardModel.findOne({ _id: boardId });
     const boardDto = new BoardDto(res);
-    return {
-      board: boardDto,
-    };
+    return boardDto;
   }
 
   async deleteBoard(userId, boardId) {
@@ -47,7 +47,7 @@ class BoardService {
     }
     await boardModel.deleteOne({ _id: boardId });
     return {
-      message: 'success',
+      message: "success",
     };
   }
 }

@@ -7,14 +7,15 @@ const initialState: IModalStore = {
   open: false,
   title: '',
   Component: DefaultComponent,
+  modalData: { data: '' },
 };
 
 const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    openModal(_, action) {
-      return { ...action.payload };
+    openModal(state, action) {
+      return { ...state, ...action.payload };
     },
     closeModal: () => {
       return initialState;

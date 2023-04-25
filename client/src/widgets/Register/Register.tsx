@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import RegisterForm from '../../entities/RegisterForm/RegisterForm';
 import AuthRouteLink from '../../shared/UI/AuthRouteLink/AuthRouteLink';
 import { IFormRegisterInput } from '../../entities/RegisterForm/RegisterForm.types';
@@ -13,14 +14,17 @@ const Register = () => {
   const navigate = useNavigate();
   const [register] = useRegisterMutation();
   const dispatch = useStoreDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = (inputs: IFormRegisterInput) => {
-    console.log('submit', inputs);
     register(inputs)
       .unwrap()
       .then((res) => {
         dispatch(setUser(res));
         navigate(`/home`, { replace: true });
+      })
+      .catch((err) => {
+        enqueueSnackbar(err.data.errorMessage, { variant: 'error' });
       });
   };
 

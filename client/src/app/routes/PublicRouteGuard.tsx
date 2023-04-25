@@ -7,7 +7,7 @@ export const PublicRouteGuard: FC<IRouteProps> = ({ children }) => {
   const { isAuth } = useUser();
 
   if (isAuth) {
-    return <Navigate to={'/home'} replace />;
+    return <Navigate to={'/boards'} replace />;
   }
 
   return <>{children}</>;
