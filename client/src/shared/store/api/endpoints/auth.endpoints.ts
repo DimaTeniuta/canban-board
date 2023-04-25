@@ -17,13 +17,10 @@ const extendedApiSlice = apiConfig.injectEndpoints({
         body: data,
       }),
     }),
-    checkAuth: builder.mutation<IAuthResponse, null>({
-      query: () => ({
-        url: 'refresh',
-        method: 'GET',
-      }),
+    checkAuth: builder.query<IAuthResponse, null>({
+      query: () => 'refresh',
     }),
   }),
 });
 
-export const { useRegisterMutation, useLogInMutation, useCheckAuthMutation } = extendedApiSlice;
+export const { useRegisterMutation, useLogInMutation, useLazyCheckAuthQuery } = extendedApiSlice;

@@ -2,16 +2,16 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import React, { useEffect } from 'react';
 import { SnackbarProvider } from 'notistack';
 import Spinner from '../shared/UI/Spinner/Spinner';
-import { useCheckAuthMutation } from '../shared/store/api/endpoints/auth.endpoints';
+import { useLazyCheckAuthQuery } from '../shared/store/api/endpoints/auth.endpoints';
 import { useStoreDispatch } from '../shared/hooks/store.hooks';
-import { setUser } from '../shared/store/slices/userSlice';
+import { setUser } from '../shared/store/slices/userSlice/userSlice';
 import { SnackbarUtilsConfigurator } from '../shared/utils/snackBar';
 import useUser from '../shared/hooks/useUser';
 import light from './theme/main';
 import Router from './routes/router';
 
 const App = () => {
-  const [checkAuth, { isLoading }] = useCheckAuthMutation();
+  const [checkAuth, { isLoading }] = useLazyCheckAuthQuery();
   const dispatch = useStoreDispatch();
   const { token } = useUser();
 

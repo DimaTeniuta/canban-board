@@ -7,7 +7,7 @@ import { PrivateRouteGuard } from './PrivateRouteGuard';
 
 const LoginPage = lazy(() => import('../../pages/LoginPage'));
 const RegisterPage = lazy(() => import('../../pages/RegisterPage'));
-const HomePage = lazy(() => import('../../pages/HomePage'));
+const BoardPage = lazy(() => import('../../pages/BoardsPage'));
 
 const Router = () => {
   const { isAuth } = useUser();
@@ -42,7 +42,7 @@ const Router = () => {
             path="home"
             element={
               <PrivateRouteGuard>
-                <HomePage />
+                <BoardPage />
               </PrivateRouteGuard>
             }
           />

@@ -4,20 +4,20 @@ import BoardDto from "./dto/board.dto.js";
 class BoardService {
   async getAllBoards(userId) {
     const boards = await boardModel.find({ userId });
-    return boards;
+    const boardsDto = boards.map((board) => new BoardDto(board));
+    return boardsDto;
   }
 
   async getBoard(boardId) {
     const board = await boardModel.findOne({ _id: boardId });
-    return board;
+    const boardDto = new BoardDto(board);
+    return boardDto;
   }
 
   async createBoard(userId, title, description) {
     const board = await boardModel.create({ title, description, userId });
     const boardDto = new BoardDto(board);
-    return {
-      board: boardDto,
-    };
+    return boardDto;
   }
 
   async updateBoard(userId, boardId, body) {

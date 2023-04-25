@@ -5,7 +5,7 @@ import { Divider, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 import useUser from '../../shared/hooks/useUser';
 import { useStoreDispatch } from '../../shared/hooks/store.hooks';
-import { clearUser } from '../../shared/store/slices/userSlice';
+import { clearUser } from '../../shared/store/slices/userSlice/userSlice';
 import * as Styled from './LogoNav.styles';
 
 export const LogoNav = () => {

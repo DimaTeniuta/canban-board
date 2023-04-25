@@ -1,6 +1,6 @@
 import { createSlice, Middleware } from '@reduxjs/toolkit';
-import { IUserStore } from '../types/userSlice.types';
-import { IStoreState } from '../types/api.types';
+import { IStoreState } from '../../store.types';
+import { IUserStore } from './userSlice.types';
 
 const initialState: IUserStore = {
   user: null,

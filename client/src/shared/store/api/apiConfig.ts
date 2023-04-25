@@ -5,8 +5,8 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
-import { IStoreState } from '../types/api.types';
-import { clearUser, updateToken } from '../slices/userSlice';
+import { IStoreState } from '../store.types';
+import { clearUser, updateToken } from '../slices/userSlice/userSlice';
 import Snackbar from '../../utils/snackBar';
 
 const baseQuery = fetchBaseQuery({
@@ -44,6 +44,6 @@ const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 export const apiConfig = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReAuth,
-  tagTypes: ['user'],
+  tagTypes: ['Board'],
   endpoints: () => ({}),
 });
