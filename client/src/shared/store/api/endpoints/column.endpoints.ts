@@ -1,4 +1,4 @@
-import { IColumn, IColumnCreateResponse } from '../../../types/column';
+import { IColumn, IColumnCreateResponse, IColumnUpdateResponse } from '../../../types/column';
 import { apiConfig } from '../apiConfig';
 
 const extendedApiSlice = apiConfig.injectEndpoints({
@@ -19,7 +19,20 @@ const extendedApiSlice = apiConfig.injectEndpoints({
       }),
       invalidatesTags: ['Columns'],
     }),
+
+    updateColumn: builder.mutation<IColumn, IColumnUpdateResponse>({
+      query: ({ boardId, columnId, data }) => ({
+        url: `/boards/${boardId}/columns/${columnId}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: (_, __, arg) => [{ type: 'Columns', id: arg.columnId }],
+    }),
   }),
 });
 
-export const { useGetColumnsQuery, useCreateColumnMutation } = extendedApiSlice;
+export const {
+  useGetColumnsQuery,
+  useCreateColumnMutation,
+  useUpdateColumnMutation,
+} = extendedApiSlice;

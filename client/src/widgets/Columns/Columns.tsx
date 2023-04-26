@@ -2,7 +2,7 @@ import { Container } from '@mui/material';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetColumnsQuery } from '../../shared/store/api/endpoints/column.endpoints';
-import Column from '../../entities/Column/Column';
+import Column from '../../features/Column/Column';
 import AddColumnBox from './components/AddColumnBox/AddColumnBox';
 import * as Styled from './Columns.styles';
 
@@ -14,10 +14,12 @@ const Columns = () => {
   return (
     <Container maxWidth="xl">
       <Styled.Container>
-        {data?.map((column) => (
-          <Column key={column.id} title={column.title} />
-        ))}
         <AddColumnBox />
+        <Styled.ColumnBox>
+          {data?.map((column) => (
+            <Column key={column.id} columnData={column} />
+          ))}
+        </Styled.ColumnBox>
       </Styled.Container>
     </Container>
   );
