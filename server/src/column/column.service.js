@@ -140,9 +140,9 @@ class ColumnService {
         );
       })
     );
-    const savedColumns = await columnModel.find({ boardId });
+
     return {
-      columns: savedColumns,
+      message: 'Success',
     };
   }
 }

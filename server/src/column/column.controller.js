@@ -53,9 +53,9 @@ class ColumnController {
       const column = await columnService.updateColumn(userId, boardId, columnId, title);
       if (typeof column === "string") {
         if (column === 'Not Found') {
-          return res.status(404).json(column);
+          return res.status(404).json(errorService.setError(column));
         }
-        return res.status(400).json(column);
+        return res.status(400).json(errorService.setError(column));
       }
       res.json(column);
     } catch (error) {
@@ -71,9 +71,9 @@ class ColumnController {
       const column = await columnService.updateColumnOrder(userId, boardId, oldOrder, newOrder);
       if (typeof column === "string") {
         if (column === 'Not Found') {
-          return res.status(404).json(column);
+          return res.status(404).json(errorService.setError(column));
         }
-        return res.status(400).json(column);
+        return res.status(400).json(errorService.setError(column));
       }
       res.json(column);
     } catch (error) {
@@ -89,9 +89,9 @@ class ColumnController {
       const column = await columnService.deleteColumn(userId, boardId, columnId);
       if (typeof column === "string") {
         if (column === 'Not Found') {
-          return res.status(404).json(column);
+          return res.status(404).json(errorService.setError(column));
         }
-        return res.status(400).json(column);
+        return res.status(400).json(errorService.setError(column));
       }
       res.json(column);
     } catch (error) {

@@ -10,7 +10,7 @@ const AddColumnBox = () => {
   const dispatch = useStoreDispatch();
 
   const handleClick = () => {
-    dispatch(openModal({ open: true, title: 'Create Column', Component: CreateColumn }));
+    dispatch(openModal({ title: 'Create Column', Component: CreateColumn }));
   };
 
   return (

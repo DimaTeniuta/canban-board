@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IStoreState } from '../../store.types';
-import { IModalStore } from './modalSlice.types';
+import { IModalStore, TModalFields } from './modalSlice.types';
 import DefaultComponent from './helpers/DefaultComponent';
 
 const initialState: IModalStore = {
@@ -14,8 +14,8 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    openModal(state, action) {
-      return { ...state, ...action.payload };
+    openModal(state, action: PayloadAction<TModalFields>) {
+      return { ...state, open: true, ...action.payload };
     },
     closeModal: () => {
       return initialState;

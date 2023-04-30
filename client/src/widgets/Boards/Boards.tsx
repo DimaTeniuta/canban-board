@@ -1,31 +1,25 @@
 import React from 'react';
-import { useSnackbar } from 'notistack';
-import {
-  useDeleteBoardMutation,
-  useGetAllBoardsQuery,
-} from '../../shared/store/api/endpoints/board.endpoints';
+import { useGetAllBoardsQuery } from '../../shared/store/api/endpoints/board.endpoints';
 import Spinner from '../../shared/UI/Spinner/Spinner';
 import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import UpdateBoard from '../../features/UpdateBoard';
 import { IBoard } from '../../shared/types/board';
+import DeleteBoard from '../../features/DeleteBoard/DeleteBoard';
 import CardBox from './components/CardBox/CardBox';
 import * as Styled from './Boards.styles';
 
 const Boards = () => {
   const { data, isLoading } = useGetAllBoardsQuery(null);
-  const [deleteBoard] = useDeleteBoardMutation();
   const dispatch = useStoreDispatch();
-  const { enqueueSnackbar } = useSnackbar();
 
   const handleUpdate = (data: IBoard) => {
     return () => {
       dispatch(
         openModal({
-          open: true,
           title: 'Update Board',
           Component: UpdateBoard,
-          modalData: data,
+          modalData: { ...data },
         })
       );
     };
@@ -33,10 +27,9 @@ const Boards = () => {
 
   const handleDelete = (id: string) => {
     return () =>
-      deleteBoard(id)
-        .unwrap()
-        .then(() => enqueueSnackbar('Board is updated', { variant: 'success' }))
-        .catch((err) => enqueueSnackbar(err.data.errorMessage, { variant: 'error' }));
+      dispatch(
+        openModal({ title: 'Delete Board', Component: DeleteBoard, modalData: { boardId: id } })
+      );
   };
 
   return (

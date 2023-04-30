@@ -10,7 +10,6 @@ import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';
 const CreateColumn = () => {
   const [createColumn, { isLoading }] = useCreateColumnMutation();
   const { id } = useParams();
-  console.log(111, id);
   const dispatch = useStoreDispatch();
   const { enqueueSnackbar } = useSnackbar();
 

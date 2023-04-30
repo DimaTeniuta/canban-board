@@ -17,3 +17,12 @@ export interface IColumnCreateResponse {
 export interface IColumnUpdateResponse extends IColumnCreateResponse {
   columnId: string;
 }
+
+export interface IColumnDeleteRequest {
+  boardId: string;
+  columnId: string;
+}
+
+export interface IColumnDeleteResponse {
+  message: string;
+}

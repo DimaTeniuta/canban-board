@@ -2,7 +2,8 @@ import React, { FC } from 'react';
 import ActionsButtons from '../../shared/components/ActionsButtons/ActionsButtons';
 import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
-import UpdateColumn from '../UpdateColumn/UpdateColumn';
+import UpdateColumn from '../UpdateColumn';
+import DeleteColumn from '../DeleteColumn';
 import * as Styled from './Column.styles';
 import { IColumnProps } from './Column.types';
 import { AddTaskButton } from './components/AddTaskButton/AddTaskButton';
@@ -12,7 +13,6 @@ const Column: FC<IColumnProps> = ({ columnData }) => {
   const handleUpdate = () => {
     dispatch(
       openModal({
-        open: true,
         title: 'Update Column',
         Component: UpdateColumn,
         modalData: { ...columnData },
@@ -20,7 +20,16 @@ const Column: FC<IColumnProps> = ({ columnData }) => {
     );
   };
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    dispatch(
+      openModal({
+        title: 'Delete Column',
+        Component: DeleteColumn,
+        modalData: { boardId: columnData.boardId, columnId: columnData.id },
+      })
+    );
+  };
+
   const handleAddTask = () => {};
 
   return (

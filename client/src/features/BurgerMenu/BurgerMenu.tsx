@@ -28,7 +28,7 @@ export const BurgerMenu = () => {
   };
 
   const handleCreateBoard = () => {
-    dispatch(openModal({ open: true, title: 'Create Board', Component: CreateBoard }));
+    dispatch(openModal({ title: 'Create Board', Component: CreateBoard }));
   };
 
   return (

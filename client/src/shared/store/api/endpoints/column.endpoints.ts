@@ -1,4 +1,10 @@
-import { IColumn, IColumnCreateResponse, IColumnUpdateResponse } from '../../../types/column';
+import {
+  IColumn,
+  IColumnCreateResponse,
+  IColumnDeleteRequest,
+  IColumnDeleteResponse,
+  IColumnUpdateResponse,
+} from '../../../types/column';
 import { apiConfig } from '../apiConfig';
 
 const extendedApiSlice = apiConfig.injectEndpoints({
@@ -28,6 +34,14 @@ const extendedApiSlice = apiConfig.injectEndpoints({
       }),
       invalidatesTags: (_, __, arg) => [{ type: 'Columns', id: arg.columnId }],
     }),
+
+    deleteColumn: builder.mutation<IColumnDeleteResponse, IColumnDeleteRequest>({
+      query: ({ boardId, columnId }) => ({
+        url: `/boards/${boardId}/columns/${columnId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_, __, arg) => [{ type: 'Columns', id: arg.columnId }],
+    }),
   }),
 });
 
@@ -35,4 +49,5 @@ export const {
   useGetColumnsQuery,
   useCreateColumnMutation,
   useUpdateColumnMutation,
+  useDeleteColumnMutation,
 } = extendedApiSlice;
