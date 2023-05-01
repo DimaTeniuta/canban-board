@@ -9,7 +9,6 @@ import * as Styled from './Columns.styles';
 const Columns = () => {
   const { id } = useParams();
   const { data } = useGetColumnsQuery(id!);
-  console.log(222, data);
 
   return (
     <Container maxWidth="xl">

@@ -12,8 +12,8 @@ const extendedApiSlice = apiConfig.injectEndpoints({
     getColumns: builder.query<IColumn[], string>({
       query: (boardId) => `boards/${boardId}/columns`,
       providesTags: (result) => [
-        'Columns',
-        ...(result ? result.map(({ id }) => ({ type: 'Columns' as const, id })) : []),
+        'Column',
+        ...(result?.length ? result.map(({ id }) => ({ type: 'Column' as const, id })) : []),
       ],
     }),
 
@@ -23,7 +23,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Columns'],
+      invalidatesTags: ['Column'],
     }),
 
     updateColumn: builder.mutation<IColumn, IColumnUpdateResponse>({
@@ -32,7 +32,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: (_, __, arg) => [{ type: 'Columns', id: arg.columnId }],
+      invalidatesTags: (_, __, arg) => [{ type: 'Column', id: arg.columnId }],
     }),
 
     deleteColumn: builder.mutation<IColumnDeleteResponse, IColumnDeleteRequest>({
@@ -40,7 +40,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
         url: `/boards/${boardId}/columns/${columnId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (_, __, arg) => [{ type: 'Columns', id: arg.columnId }],
+      invalidatesTags: (_, __, arg) => [{ type: 'Column', id: arg.columnId }],
     }),
   }),
 });

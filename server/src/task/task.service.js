@@ -22,10 +22,11 @@ class TaskService {
     if (column.boardId !== boardId) {
       return "Bad request";
     }
+
     const tasks = await taskModel.find({ columnId });
-    return {
-      tasks: tasks,
-    };
+    const tasksDto = tasks.map((task) => new TaskDto(task));
+
+    return tasksDto;
   }
 
   async getTask(userId, boardId, columnId, taskId) {
@@ -48,9 +49,7 @@ class TaskService {
     }
     const task = await taskModel.findById(taskId);
     const taskDto = new TaskDto(task);
-    return {
-      task: taskDto,
-    };
+    return taskDto;
   }
 
   async createTask(userId, boardId, columnId, body) {
@@ -112,9 +111,8 @@ class TaskService {
 
     const updatedTask = await taskModel.findById(taskId);
     const taskDto = new TaskDto(updatedTask);
-    return {
-      task: taskDto,
-    };
+  
+    return taskDto;
   }
 
   async updateTaskOrder(userId, boardId, columnId, oldOrder, newOrder) {
@@ -227,9 +225,9 @@ class TaskService {
         );
       })
     );
-    const savedTasks = await taskModel.find({ boardId });
+
     return {
-      tasks: savedTasks,
+      message: 'Success',
     };
   }
 

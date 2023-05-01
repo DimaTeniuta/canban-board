@@ -16,4 +16,5 @@ export const ColumnBox = styled('div')({
   margin: '20px auto 0 auto',
   border: '1px solid red',
   overflowX: 'scroll',
+  overflowY: 'hidden',
 });

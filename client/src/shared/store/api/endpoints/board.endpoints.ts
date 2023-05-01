@@ -7,7 +7,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
       query: () => 'boards',
       providesTags: (result) => [
         'Board',
-        ...(result ? result.map(({ id }) => ({ type: 'Board' as const, id })) : []),
+        ...(result?.length ? result.map(({ id }) => ({ type: 'Board' as const, id })) : []),
       ],
     }),
 

@@ -7,7 +7,7 @@ export const PaperContainer = styled(Paper)({
   justifyContent: 'space-between',
   padding: '10px',
   minHeight: 500,
-  height: 500,
+  maxHeight: 500,
   maxWidth: 300,
   minWidth: 300,
   margin: 'auto',
@@ -17,6 +17,7 @@ export const Title = styled('div')(({ theme }) => ({
   position: 'absolute',
   top: 0,
   left: 0,
+  zIndex: 9,
   display: 'flex',
   alignItems: 'center',
   width: '100%',
@@ -31,6 +32,7 @@ export const Title = styled('div')(({ theme }) => ({
 export const WrapContent = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'space-between',
   width: '100%',
   height: '100%',
   marginTop: 40,
@@ -39,12 +41,13 @@ export const WrapContent = styled('div')(() => ({
 export const TaskBox = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'start',
   flexGrow: 1,
   rowGap: 10,
   width: '100%',
-  height: '100%',
-  padding: 5,
-  overFlowY: 'scroll',
+  minHeight: '400px',
+  maxHeight: '400px',
+  overflowY: 'auto',
 }));
 
 export const ButtonsWrap = styled('div')(() => ({

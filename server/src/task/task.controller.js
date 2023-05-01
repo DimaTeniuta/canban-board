@@ -1,5 +1,6 @@
 import taskService from "./task.service.js";
 import { validationResult } from "express-validator";
+import errorService from '../exceptions/error.service.js';
 
 class TaskController {
   async getAllTasks(req, res, next) {
@@ -10,9 +11,9 @@ class TaskController {
       const tasks = await taskService.getAllTasks(userId, boardId, columnId);
       if (typeof tasks === "string") {
         if (tasks === 'Not Found') {
-          return res.status(404).json(tasks);
+          return res.status(404).json(errorService.setError(tasks));
         }
-        return res.status(400).json(tasks);
+        return res.status(400).json(errorService.setError(tasks));
       }
       res.json(tasks);
     } catch (error) {
@@ -29,9 +30,9 @@ class TaskController {
       const task = await taskService.getTask(userId, boardId, columnId, taskId);
       if (typeof task === "string") {
         if (task === 'Not Found') {
-          return res.status(404).json(task);
+          return res.status(404).json(errorService.setError(task));
         }
-        return res.status(400).json(task);
+        return res.status(400).json(errorService.setError(task));
       }
       res.json(task);
     } catch (error) {
@@ -43,7 +44,7 @@ class TaskController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(res.status(400).json("Validation error"));
+        return next(res.status(400).json(errorService.setError(errors.errors[0].msg)));
       }
       const boardId = req.params.id;
       const userId = req.user.id;
@@ -52,9 +53,9 @@ class TaskController {
       const task = await taskService.createTask(userId, boardId, columnId, { title, description });
       if (typeof task === "string") {
         if (task === 'Not Found') {
-          return res.status(404).json(task);
+          return res.status(404).json(errorService.setError(task));
         }
-        return res.status(400).json(task);
+        return res.status(400).json(errorService.setError(task));
       }
       res.json(task);
     } catch (error) {
@@ -66,7 +67,7 @@ class TaskController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(res.status(400).json("Validation error"));
+        return next(res.status(400).json(errorService.setError(errors.errors[0].msg)));
       }
       const boardId = req.params.id;
       const userId = req.user.id;
@@ -76,9 +77,9 @@ class TaskController {
       const task = await taskService.updateTask(userId, boardId, columnId, taskId, { title, description });
       if (typeof task === "string") {
         if (task === 'Not Found') {
-          return res.status(404).json(task);
+          return res.status(404).json(errorService.setError(task));
         }
-        return res.status(400).json(task);
+        return res.status(400).json(errorService.setError(task));
       }
       res.json(task);
     } catch (error) {
@@ -88,10 +89,6 @@ class TaskController {
 
   async deleteTask(req, res, next) {
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return next(res.status(400).json("Validation error"));
-      }
       const boardId = req.params.id;
       const userId = req.user.id;
       const columnId = req.params.columnId;
@@ -99,9 +96,9 @@ class TaskController {
       const tasks = await taskService.deleteTask(userId, boardId, columnId, taskId);
       if (typeof tasks === "string") {
         if (tasks === 'Not Found') {
-          return res.status(404).json(tasks);
+          return res.status(404).json(errorService.setError(tasks));
         }
-        return res.status(400).json(tasks);
+        return res.status(400).json(errorService.setError(tasks));
       }
       res.json(tasks);
     } catch (error) {
