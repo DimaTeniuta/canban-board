@@ -1,75 +1,42 @@
 import boardModel from "../board/board.model.js";
 import columnModel from "../column/column.model.js";
 import TaskDto from "./dto/task.dto.js";
+import TaskUpdatedDto from "./dto/taskUpdated.dto.js";
+import { checkTaskAccess } from "./helpers/checkTaskAccess.js";
 import taskModel from "./task.model.js";
 
 class TaskService {
   async getAllTasks(userId, boardId, columnId) {
-    const board = await boardModel.findById(boardId);
-    if (!board) {
-      return "Not Found";
-    }
-    if (board.userId !== userId) {
-      return "Bad request";
-    }
-    const column = await columnModel.findById(columnId);
-    if (!column) {
-      return "Bad request";
-    }
-    if (column.userId !== userId) {
-      return "Bad request";
-    }
-    if (column.boardId !== boardId) {
-      return "Bad request";
+    const accessRes = await checkTaskAccess(boardId, columnId, userId);
+    if (accessRes) {
+      return accessRes;
     }
 
     const tasks = await taskModel.find({ columnId });
-    const tasksDto = tasks.map((task) => new TaskDto(task));
+    const tasksDto = tasks
+      .map((task) => new TaskDto(task))
+      .sort((a, b) => a.order - b.order);
 
     return tasksDto;
   }
 
   async getTask(userId, boardId, columnId, taskId) {
-    const board = await boardModel.findById(boardId);
-    if (!board) {
-      return "Not Found";
+    const accessRes = await checkTaskAccess(boardId, columnId, userId);
+    if (accessRes) {
+      return accessRes;
     }
-    if (board.userId !== userId) {
-      return "Bad request";
-    }
-    const column = await columnModel.findById(columnId);
-    if (!column) {
-      return "Bad request";
-    }
-    if (column.userId !== userId) {
-      return "Bad request";
-    }
-    if (column.boardId !== boardId) {
-      return "Bad request";
-    }
+
     const task = await taskModel.findById(taskId);
     const taskDto = new TaskDto(task);
     return taskDto;
   }
 
   async createTask(userId, boardId, columnId, body) {
-    const board = await boardModel.findById(boardId);
-    if (!board) {
-      return "Not Found";
+    const accessRes = await checkTaskAccess(boardId, columnId, userId);
+    if (accessRes) {
+      return accessRes;
     }
-    if (board.userId !== userId) {
-      return "Bad request";
-    }
-    const column = await columnModel.findById(columnId);
-    if (!column) {
-      return "Bad request";
-    }
-    if (column.userId !== userId) {
-      return "Bad request";
-    }
-    if (column.boardId !== boardId) {
-      return "Bad request";
-    }
+
     const tasks = await taskModel.find({ columnId });
     const order = tasks.length;
     const newTask = await taskModel.create({
@@ -87,23 +54,11 @@ class TaskService {
   }
 
   async updateTask(userId, boardId, columnId, taskId, body) {
-    const board = await boardModel.findById(boardId);
-    if (!board) {
-      return "Not Found";
+    const accessRes = await checkTaskAccess(boardId, columnId, userId);
+    if (accessRes) {
+      return accessRes;
     }
-    if (board.userId !== userId) {
-      return "Bad request";
-    }
-    const column = await columnModel.findById(columnId);
-    if (!column) {
-      return "Bad request";
-    }
-    if (column.userId !== userId) {
-      return "Bad request";
-    }
-    if (column.boardId !== boardId) {
-      return "Bad request";
-    }
+
     await taskModel.findByIdAndUpdate(taskId, {
       title: body.title,
       description: body.description,
@@ -111,44 +66,25 @@ class TaskService {
 
     const updatedTask = await taskModel.findById(taskId);
     const taskDto = new TaskDto(updatedTask);
-  
+
     return taskDto;
   }
 
   async updateTaskOrder(userId, boardId, columnId, oldOrder, newOrder) {
-    const board = await boardModel.findById(boardId);
-    if (!board) {
+    const accessRes = await checkTaskAccess(boardId, columnId, userId);
+    if (accessRes) {
+      return accessRes;
+    }
+
+    const oldTasks = await taskModel.find({ columnId });
+    if (!oldTasks) {
       return "Not Found";
     }
-    if (board.userId !== userId) {
-      return "Bad request";
-    }
-    const column = await columnModel.findById(columnId);
-    if (!column) {
-      return "Bad request";
-    }
-    if (column.userId !== userId) {
-      return "Bad request";
-    }
-    if (column.boardId !== boardId) {
-      return "Bad request";
-    }
-    const oldTasks = await taskModel.find({ columnId });
 
     const newTasks = oldTasks
       .sort((a, b) => a.order - b.order)
       .map((task, index) => {
-        const { _id, userId, boardId, columnId, title, description, order } =
-          task;
-        const tmpTask = {
-          _id,
-          userId,
-          boardId,
-          columnId,
-          title,
-          description,
-          order,
-        };
+        const tmpTask = new TaskUpdatedDto(task);
         if (oldOrder < newOrder) {
           if (index === oldOrder) {
             return { ...tmpTask, order: newOrder };
@@ -169,6 +105,8 @@ class TaskService {
           } else {
             return task;
           }
+        } else if (oldOrder === newOrder) {
+          return task;
         }
       });
 
@@ -181,32 +119,22 @@ class TaskService {
     );
 
     const savedTasks = await taskModel.find({ boardId });
-    return {
-      tasks: savedTasks,
-    };
+    const savedTasksDto = savedTasks
+      .map((task) => new TaskDto(task))
+      .sort((a, b) => a.order - b.order);
+
+    return savedTasksDto;
   }
 
   async deleteTask(userId, boardId, columnId, taskId) {
-    const board = await boardModel.findById(boardId);
-    if (!board) {
-      return "Not Found";
+    const accessRes = await checkTaskAccess(boardId, columnId, userId);
+    if (accessRes) {
+      return accessRes;
     }
-    if (board.userId !== userId) {
-      return "Bad request";
-    }
-    const column = await columnModel.findById(columnId);
-    if (!column) {
-      return "Bad request";
-    }
-    if (column.userId !== userId) {
-      return "Bad request";
-    }
-    if (column.boardId !== boardId) {
-      return "Bad request";
-    }
+
     const deletedTask = await taskModel.findByIdAndDelete(taskId);
     if (!deletedTask) {
-      return "Bad request";
+      return "Not Found";
     }
 
     const oldTasks = await taskModel.find({ boardId });
@@ -227,48 +155,35 @@ class TaskService {
     );
 
     return {
-      message: 'Success',
+      message: "Success",
     };
   }
 
   async updateTaskColumn(userId, boardId, body) {
     const { oldColumn, newColumn, taskId, oldOrder, newOrder } = body;
-    const board = await boardModel.findById(boardId);
-    if (!board) {
-      return "Not Found";
-    }
-    if (board.userId !== userId) {
-      return "Bad request";
+ 
+    const accessResOld = await checkTaskAccess(boardId, oldColumn, userId);
+    if (accessResOld) {
+      return accessResOld;
     }
 
-    const oldCol = await columnModel.findById(oldColumn);
-    if (!oldCol) {
-      return "Bad request";
-    }
-    if (oldCol.userId !== userId) {
-      return "Bad request";
-    }
-    if (oldCol.boardId !== boardId) {
-      return "Bad request";
-    }
-
-    const newCol = await columnModel.findById(newColumn);
-    if (!newCol) {
-      return "Bad request";
-    }
-    if (newCol.userId !== userId) {
-      return "Bad request";
-    }
-    if (newCol.boardId !== boardId) {
-      return "Bad request";
+    const accessResNew = await checkTaskAccess(boardId, newColumn, userId);
+    if (accessResNew) {
+      return accessResNew;
     }
 
     const newTasks = await taskModel.find({ columnId: newColumn });
+    if (!newTasks) {
+      return "Not Found";
+    }
 
-    const task = await taskModel.findOneAndUpdate({ _id: taskId }, {
-      columnId: newColumn,
-      order: newTasks.length,
-    });
+    const task = await taskModel.findOneAndUpdate(
+      { _id: taskId },
+      {
+        columnId: newColumn,
+        order: newTasks.length,
+      }
+    );
 
     if (!task) {
       return "Not Found";
@@ -283,7 +198,7 @@ class TaskService {
       updatedTask.order,
       newOrder
     );
- 
+
     return res;
   }
 }

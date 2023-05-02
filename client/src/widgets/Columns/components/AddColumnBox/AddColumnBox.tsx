@@ -1,4 +1,3 @@
-import { IconButton } from '@mui/material';
 import React from 'react';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import { useStoreDispatch } from '../../../../shared/hooks/store.hooks';
@@ -15,9 +14,10 @@ const AddColumnBox = () => {
 
   return (
     <Styled.Wrapper>
-      <IconButton onClick={handleClick}>
-        <AddCardIcon color="primary" />
-      </IconButton>
+      <Styled.Button variant="contained" onClick={handleClick}>
+        <AddCardIcon sx={{ color: 'primary.contrastText' }} />
+        Add Column
+      </Styled.Button>
     </Styled.Wrapper>
   );
 };

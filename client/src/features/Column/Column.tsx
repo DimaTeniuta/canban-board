@@ -1,5 +1,11 @@
 import React, { FC } from 'react';
-import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
+import {
+  Draggable,
+  DraggableProvided,
+  Droppable,
+  DroppableProvided,
+  DraggableStateSnapshot,
+} from 'react-beautiful-dnd';
 import ActionsButtons from '../../shared/components/ActionsButtons/ActionsButtons';
 import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
@@ -56,9 +62,22 @@ const Column: FC<IColumnProps> = ({ columnData, index }) => {
         >
           <Styled.Title>{columnData.title}</Styled.Title>
           <Styled.WrapContent>
-            <Styled.TaskBox>
-              {data && data?.map((task) => <Task key={task.id} taskData={task} />)}
-            </Styled.TaskBox>
+            <Droppable
+              key={columnData.id}
+              type="task"
+              droppableId={columnData.id}
+              direction="vertical"
+            >
+              {(provided: DroppableProvided) => (
+                <Styled.TaskBox ref={provided.innerRef} {...provided.droppableProps}>
+                  {data &&
+                    data?.map((task, index) => (
+                      <Task key={task.id} index={index} taskData={task} />
+                    ))}
+                  {provided.placeholder}
+                </Styled.TaskBox>
+              )}
+            </Droppable>
 
             <Styled.ButtonsWrap>
               <AddTaskButton onAction={handleAddTask} />

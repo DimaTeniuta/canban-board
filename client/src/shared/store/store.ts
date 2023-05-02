@@ -13,7 +13,6 @@ export const store = configureStore({
     getDefaultMiddleware({ serializableCheck: false })
       .concat(userMiddleware)
       .concat(apiConfig.middleware),
-  devTools: true,
 });
 
 export type TStoreDispatch = typeof store.dispatch;

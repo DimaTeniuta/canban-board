@@ -8,7 +8,6 @@ export const PaperContainer = styled(Paper)({
   padding: '10px',
   minHeight: 300,
   width: 260,
-  margin: 'auto',
 });
 
 export const Title = styled('div')(({ theme }) => ({

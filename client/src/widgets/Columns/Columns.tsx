@@ -7,18 +7,22 @@ import {
   useUpdateColumnOrderMutation,
 } from '../../shared/store/api/endpoints/column.endpoints';
 import Column from '../../features/Column/Column';
+import {
+  useUpdateTaskOrderAndColumnMutation,
+  useUpdateTaskOrderMutation,
+} from '../../shared/store/api/endpoints/task.endpoints';
 import AddColumnBox from './components/AddColumnBox/AddColumnBox';
 import * as Styled from './Columns.styles';
 
 const Columns = () => {
   const { id } = useParams();
   const { data } = useGetColumnsQuery(id!);
-  console.log(555, data);
 
   const [updateColumnOrder] = useUpdateColumnOrderMutation();
+  const [updateTaskOrder] = useUpdateTaskOrderMutation();
+  const [updateTaskOrderAndColumn] = useUpdateTaskOrderAndColumnMutation();
 
   const onDragEnd = async (result: DropResult) => {
-    console.log(111, result);
     if (!result.destination) return;
     const { destination, source, type } = result;
 
@@ -27,12 +31,25 @@ const Columns = () => {
     const oldId = source.droppableId;
     const newId = destination.droppableId;
 
+    const data = { oldOrder, newOrder };
+
+    if (oldOrder === newOrder && oldId === newId) return;
+
     if (type === 'column') {
-      const data = { oldOrder, newOrder };
-      await updateColumnOrder({ boardId: id!, data })
-        .unwrap()
-        .then((res) => console.log(222, res))
-        .catch((err) => console.log(333, err));
+      await updateColumnOrder({ boardId: id!, data }).unwrap();
+    } else if (type === 'task') {
+      if (oldId === newId) {
+        console.log(1111);
+        await updateTaskOrder({ boardId: id!, columnId: oldId, data }).unwrap();
+      } else {
+        const data = { taskId: result.draggableId, oldOrder, newOrder };
+        await updateTaskOrderAndColumn({
+          boardId: id!,
+          columnOldId: oldId,
+          columnNewId: newId,
+          data,
+        }).unwrap();
+      }
     }
   };
 
@@ -44,7 +61,7 @@ const Columns = () => {
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable type="column" droppableId={id || ''} direction="horizontal">
             {(provided: DroppableProvided) => (
-              <Styled.ColumnBox ref={provided.innerRef} {...provided.droppableProps}>
+              <Styled.ColumnBox elevation={3} ref={provided.innerRef} {...provided.droppableProps}>
                 {data?.map((column, index) => (
                   <Column key={column.id} columnData={column} index={index} />
                 ))}

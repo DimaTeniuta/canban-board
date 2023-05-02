@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { styled, Paper } from '@mui/material';
 
 export const Container = styled('div')({
   position: 'relative',
@@ -7,15 +7,16 @@ export const Container = styled('div')({
   paddingTop: 30,
 });
 
-export const ColumnBox = styled('div')({
+export const ColumnBox = styled(Paper)(() => ({
   display: 'flex',
-  columnGap: 10,
+  alignItems: 'flex-start',
+  columnGap: 20,
   flexWrap: 'nowrap',
-  minHeight: '500px',
-  maxHeight: '500px',
-  height: 'calc(100vh - 160px)',
-  margin: '20px auto 0 auto',
-  border: '1px solid red',
-  overflowX: 'scroll',
+  width: '100%',
+  minHeight: '550px',
+  maxHeight: '550px',
+  margin: '30px auto 0 auto',
+  padding: 20,
+  overflowX: 'auto',
   overflowY: 'hidden',
-});
+}));

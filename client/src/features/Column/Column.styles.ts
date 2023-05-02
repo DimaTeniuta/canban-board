@@ -5,7 +5,6 @@ export const PaperContainer = styled(Paper)({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  padding: '10px',
   minHeight: 500,
   maxHeight: 500,
   maxWidth: 300,
@@ -45,12 +44,13 @@ export const TaskBox = styled('div')(() => ({
   flexGrow: 1,
   rowGap: 10,
   width: '100%',
-  minHeight: '400px',
-  maxHeight: '400px',
+  minHeight: '420px',
+  maxHeight: '420px',
+  padding: '10px',
   overflowY: 'auto',
 }));
 
-export const ButtonsWrap = styled('div')(() => ({
+export const ButtonsWrap = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
