@@ -1,6 +1,7 @@
 import { validationResult } from "express-validator";
 import authService from "./auth.service.js";
 import errorService from "../exceptions/error.service.js";
+import { chooseAuthResponse } from "./helpers/chooseAuthResponse.js";
 
 class AuthController {
   async registration(req, res, next) {
@@ -11,15 +12,9 @@ class AuthController {
       }
       const { email, password, name } = req.body;
       const userData = await authService.registration(email, password, name);
-      if (typeof userData === "string") {
-        res.status(400).json(errorService.setError(userData));
-      } else {
-        res.cookie("refreshToken", userData.refreshToken, {
-          maxAge: 30 * 24 * 60 * 60 * 1000,
-          httpOnly: true,
-        });
-        res.json(userData);
-      }
+      const response = chooseAuthResponse(res, userData, 400);
+
+      return response;
     } catch (error) {
       next(error);
     }
@@ -33,15 +28,9 @@ class AuthController {
       }
       const { email, password } = req.body;
       const userData = await authService.login(email, password);
-      if (typeof userData === "string") {
-        res.status(400).json(errorService.setError(userData));
-      } else {
-        res.cookie("refreshToken", userData.refreshToken, {
-          maxAge: 30 * 24 * 60 * 60 * 1000,
-          httpOnly: true,
-        });
-        res.json(userData);
-      }
+      const response = chooseAuthResponse(res, userData, 400);
+
+      return response;
     } catch (error) {
       next(error);
     }
@@ -63,15 +52,9 @@ class AuthController {
     try {;
       const { refreshToken } = req.cookies;
       const userData = await authService.refresh(refreshToken);
-      if (typeof userData === "string") {
-        res.status(403).json(errorService.setError(userData));
-      } else {
-        res.cookie("refreshToken", userData.refreshToken, {
-          maxAge: 30 * 24 * 60 * 60 * 1000,
-          httpOnly: true,
-        });
-        res.json(userData);
-      }
+      const response = chooseAuthResponse(res, userData, 403);
+
+      return response;
     } catch (error) {
       next(error);
     }

@@ -1,15 +1,13 @@
 import boardModel from "../board/board.model.js";
 import columnModel from "./column.model.js";
 import ColumnDto from "./dto/column.dto.js";
+import { checkColumnAccess } from "./helpers/checkColumnAccess.js";
 
 class ColumnService {
   async getColumns(userId, boardId) {
-    const board = await boardModel.findOne({ _id: boardId });
-    if (!board) {
-      return "Not Found";
-    }
-    if (board.userId !== userId) {
-      return "Bad request";
+    const columnAccess = await checkColumnAccess(userId, boardId);
+    if (columnAccess) {
+      return columnAccess;
     }
 
     const columns = await columnModel.find({ boardId });
@@ -21,13 +19,11 @@ class ColumnService {
   }
 
   async createColumn(userId, boardId, title) {
-    const board = await boardModel.findById(boardId);
-    if (!board) {
-      return "Not Found";
+    const columnAccess = await checkColumnAccess(userId, boardId);
+    if (columnAccess) {
+      return columnAccess;
     }
-    if (board.userId !== userId) {
-      return "Bad request";
-    }
+  
     const columns = await columnModel.find({ boardId });
     if (!columns) {
       return "Bad request";
@@ -40,34 +36,25 @@ class ColumnService {
   }
 
   async updateColumn(userId, boardId, columnId, title) {
-    const board = await boardModel.findOne({ _id: boardId });
-    if (!board) {
-      return "Not Found";
+    const columnAccess = await checkColumnAccess(userId, boardId, columnId);
+    if (columnAccess) {
+      return columnAccess;
     }
-    if (board.userId !== userId) {
-      return "Bad request";
-    }
-    const column = await columnModel.findOneAndUpdate(
-      { _id: columnId },
-      { title }
-    );
+
+    await columnModel.findOneAndUpdate({ _id: columnId }, { title });
+
     const columnUpdated = await columnModel.findOne({ _id: columnId });
-    if (!column) {
-      return "Not Found";
-    }
-    return {
-      column: columnUpdated,
-    };
+    const columnDto = new ColumnDto(columnUpdated);
+
+    return columnDto;
   }
 
   async updateColumnOrder(userId, boardId, oldOrder, newOrder) {
-    const board = await boardModel.findById(boardId);
-    if (!board) {
-      return "Not Found";
+    const columnAccess = await checkColumnAccess(userId, boardId);
+    if (columnAccess) {
+      return columnAccess;
     }
-    if (board.userId !== userId) {
-      return "Bad request";
-    }
+
     const oldColumns = await columnModel.find({ boardId });
     const newColumns = oldColumns
       .sort((a, b) => a.order - b.order)
@@ -114,17 +101,13 @@ class ColumnService {
   }
 
   async deleteColumn(userId, boardId, columnId) {
-    const board = await boardModel.findOne({ _id: boardId });
-    if (!board) {
-      return "Not Found";
+    const columnAccess = await checkColumnAccess(userId, boardId, columnId);
+    if (columnAccess) {
+      return columnAccess;
     }
-    if (board.userId !== userId) {
-      return "Bad request";
-    }
-    const column = await columnModel.findOneAndDelete({ _id: columnId });
-    if (!column) {
-      return "Not Found";
-    }
+
+    await columnModel.findOneAndDelete({ _id: columnId });
+
     const oldColumns = await columnModel.find({ boardId });
     const newColumns = oldColumns
       .sort((a, b) => a.order - b.order)
@@ -133,6 +116,7 @@ class ColumnService {
         const tmpColumn = { _id, order };
         return { ...tmpColumn, order: index };
       });
+
     await Promise.all(
       newColumns.map((el) => {
         return new Promise((res) =>

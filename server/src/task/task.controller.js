@@ -1,7 +1,7 @@
 import taskService from "./task.service.js";
 import { validationResult } from "express-validator";
 import errorService from '../exceptions/error.service.js';
-import { chooseTaskResponse } from "./helpers/chooseResponse.js";
+import { chooseTaskResponse } from "./helpers/chooseTaskResponse.js";
 
 class TaskController {
   async getAllTasks(req, res, next) {
@@ -11,7 +11,7 @@ class TaskController {
       const columnId = req.params.columnId;
       const tasks = await taskService.getAllTasks(userId, boardId, columnId);
       const response = chooseTaskResponse(res, tasks);
-      
+
       return response;
     } catch (error) {
       next(error);

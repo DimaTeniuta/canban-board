@@ -1,6 +1,7 @@
 import errorService from "../exceptions/error.service.js";
 import columnService from "./column.service.js";
 import { validationResult } from "express-validator";
+import { chooseColumnResponse } from "./helpers/chooseColumnResponse.js";
 
 class ColumnController {
   async getColumns(req, res, next) {
@@ -12,7 +13,9 @@ class ColumnController {
       const boardId = req.params.id;
       const userId = req.user.id;
       const columns = await columnService.getColumns(userId, boardId);
-      res.json(columns);
+      const response = chooseColumnResponse(res, columns);
+
+      return response;
     } catch (error) {
       next(error);
     }
@@ -28,13 +31,9 @@ class ColumnController {
       const userId = req.user.id;
       const { title } = req.body;
       const column = await columnService.createColumn(userId, boardId, title);
-      if (typeof column === "string") {
-        if (column === 'Not Found') {
-          return res.status(404).json(errorService.setError(column));
-        }
-        return res.status(400).json(errorService.setError(column));
-      }
-      res.json(column);
+      const response = chooseColumnResponse(res, column);
+
+      return response;
     } catch (error) {
       next(error);
     }
@@ -51,13 +50,9 @@ class ColumnController {
       const userId = req.user.id;
       const { title } = req.body;
       const column = await columnService.updateColumn(userId, boardId, columnId, title);
-      if (typeof column === "string") {
-        if (column === 'Not Found') {
-          return res.status(404).json(errorService.setError(column));
-        }
-        return res.status(400).json(errorService.setError(column));
-      }
-      res.json(column);
+      const response = chooseColumnResponse(res, column);
+
+      return response;
     } catch (error) {
       next(error);
     }
@@ -69,13 +64,9 @@ class ColumnController {
       const userId = req.user.id;
       const { oldOrder, newOrder } = req.body;
       const column = await columnService.updateColumnOrder(userId, boardId, oldOrder, newOrder);
-      if (typeof column === "string") {
-        if (column === 'Not Found') {
-          return res.status(404).json(errorService.setError(column));
-        }
-        return res.status(400).json(errorService.setError(column));
-      }
-      res.json(column);
+      const response = chooseColumnResponse(res, column);
+
+      return response;
     } catch (error) {
       next(error);
     }
@@ -87,13 +78,9 @@ class ColumnController {
       const columnId = req.params.columnId;
       const userId = req.user.id;
       const column = await columnService.deleteColumn(userId, boardId, columnId);
-      if (typeof column === "string") {
-        if (column === 'Not Found') {
-          return res.status(404).json(errorService.setError(column));
-        }
-        return res.status(400).json(errorService.setError(column));
-      }
-      res.json(column);
+      const response = chooseColumnResponse(res, column);
+
+      return response;
     } catch (error) {
       next(error);
     }

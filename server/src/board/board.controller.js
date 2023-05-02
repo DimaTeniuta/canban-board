@@ -1,13 +1,16 @@
 import boardService from "./board.service.js";
 import { validationResult } from "express-validator";
 import errorService from "../exceptions/error.service.js";
+import { chooseBoardResponse } from "./helpers/chooseBoardResponse.js";
 
 class BoardController {
   async getAllBoards(req, res, next) {
     try {
       const userId = req.user.id;
       const boards = await boardService.getAllBoards(userId);
-      res.json(boards);
+      const response = chooseBoardResponse(res, boards);
+      
+      return response;
     } catch (error) {
       next(error);
     }
@@ -16,12 +19,11 @@ class BoardController {
   async getBoard(req, res, next) {
     try {
       const boardId = req.params.id;
-      const board = await boardService.getBoard(boardId);
       const userId = req.user.id;
-      if (board.userId !== userId) {
-        return res.status(400).json("Bad request");
-      }
-      res.json(board);
+      const board = await boardService.getBoard(userId, boardId);
+      const response = chooseBoardResponse(res, board);
+      
+      return response;
     } catch (error) {
       next(error);
     }
@@ -46,19 +48,14 @@ class BoardController {
     try {
       const userId = req.user.id;
       const boardId = req.params.id;
-
       const { title, description } = req.body;
       const board = await boardService.updateBoard(userId, boardId, {
         title,
         description,
       });
-      if (typeof board === "string") {
-        if (board === 'Not Found') {
-          return res.status(404).json(errorService.setError(board));
-        }
-        return res.status(400).json(errorService.setError(board));
-      }
-      res.json(board);
+      const response = chooseBoardResponse(res, board);
+
+      return response;
     } catch (error) {
       next(error);
     }
@@ -68,15 +65,10 @@ class BoardController {
     try {
       const userId = req.user.id;
       const boardId = req.params.id;
-
       const board = await boardService.deleteBoard(userId, boardId, );
-      if (typeof board === "string") {
-        if (board === 'Not Found') {
-          return res.status(404).json(errorService.setError(board));
-        }
-        return res.status(400).json(errorService.setError(board));
-      }
-      res.json(board);
+      const response = chooseBoardResponse(res, board);
+      
+      return response;
     } catch (error) {
       next(error);
     }
