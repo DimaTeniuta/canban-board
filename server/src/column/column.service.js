@@ -13,8 +13,10 @@ class ColumnService {
     }
 
     const columns = await columnModel.find({ boardId });
-    const columnsDto = columns.map((column) => new ColumnDto(column));
-  
+    const columnsDto = columns
+      .sort((a, b) => a.order - b.order)
+      .map((column) => new ColumnDto(column));
+
     return columnsDto;
   }
 
@@ -33,7 +35,7 @@ class ColumnService {
     const order = columns.length;
     const column = await columnModel.create({ title, order, userId, boardId });
     const columnDto = new ColumnDto(column);
-  
+
     return columnDto;
   }
 
@@ -106,9 +108,9 @@ class ColumnService {
     );
 
     const savedColumns = await columnModel.find({ boardId });
-    return {
-      columns: savedColumns,
-    };
+    const savedColumnsDto = savedColumns.map((column) => new ColumnDto(column));
+
+    return savedColumnsDto;
   }
 
   async deleteColumn(userId, boardId, columnId) {
@@ -142,7 +144,7 @@ class ColumnService {
     );
 
     return {
-      message: 'Success',
+      message: "Success",
     };
   }
 }

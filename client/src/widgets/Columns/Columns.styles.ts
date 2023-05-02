@@ -12,6 +12,7 @@ export const ColumnBox = styled('div')({
   columnGap: 10,
   flexWrap: 'nowrap',
   minHeight: '500px',
+  maxHeight: '500px',
   height: 'calc(100vh - 160px)',
   margin: '20px auto 0 auto',
   border: '1px solid red',

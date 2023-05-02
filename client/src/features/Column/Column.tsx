@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import ActionsButtons from '../../shared/components/ActionsButtons/ActionsButtons';
 import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
@@ -11,7 +12,7 @@ import * as Styled from './Column.styles';
 import { IColumnProps } from './Column.types';
 import { AddTaskButton } from './components/AddTaskButton/AddTaskButton';
 
-const Column: FC<IColumnProps> = ({ columnData }) => {
+const Column: FC<IColumnProps> = ({ columnData, index }) => {
   const dispatch = useStoreDispatch();
   const { data } = useGetTasksQuery({ boardId: columnData.boardId, columnId: columnData.id });
 
@@ -46,19 +47,27 @@ const Column: FC<IColumnProps> = ({ columnData }) => {
   };
 
   return (
-    <Styled.PaperContainer>
-      <Styled.Title>{columnData.title}</Styled.Title>
-      <Styled.WrapContent>
-        <Styled.TaskBox>
-          {data && data?.map((task) => <Task key={task.id} taskData={task} />)}
-        </Styled.TaskBox>
+    <Draggable draggableId={columnData.id} key={columnData.id} index={index}>
+      {(providedDragColumn: DraggableProvided, dragableSnapshot: DraggableStateSnapshot) => (
+        <Styled.PaperContainer
+          ref={providedDragColumn.innerRef}
+          {...providedDragColumn.draggableProps}
+          {...providedDragColumn.dragHandleProps}
+        >
+          <Styled.Title>{columnData.title}</Styled.Title>
+          <Styled.WrapContent>
+            <Styled.TaskBox>
+              {data && data?.map((task) => <Task key={task.id} taskData={task} />)}
+            </Styled.TaskBox>
 
-        <Styled.ButtonsWrap>
-          <AddTaskButton onAction={handleAddTask} />
-          <ActionsButtons onUpdate={handleUpdate} onDelete={handleDelete} />
-        </Styled.ButtonsWrap>
-      </Styled.WrapContent>
-    </Styled.PaperContainer>
+            <Styled.ButtonsWrap>
+              <AddTaskButton onAction={handleAddTask} />
+              <ActionsButtons onUpdate={handleUpdate} onDelete={handleDelete} />
+            </Styled.ButtonsWrap>
+          </Styled.WrapContent>
+        </Styled.PaperContainer>
+      )}
+    </Draggable>
   );
 };
 

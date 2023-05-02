@@ -3,6 +3,7 @@ export interface IColumn {
   userId: string;
   boardId: string;
   id: string;
+  order: number;
 }
 
 export interface IColumnRequest {
@@ -25,4 +26,12 @@ export interface IColumnDeleteRequest {
 
 export interface IColumnDeleteResponse {
   message: string;
+}
+
+export interface IColumnUpdateOrderRequest {
+  boardId: string;
+  data: {
+    oldOrder: number;
+    newOrder: number;
+  };
 }
