@@ -113,7 +113,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
             (draft) => {
               const { oldOrder, newOrder } = data;
               draft.sort((a, b) => a.order - b.order);
-              updatedTask = { ...draft[oldOrder], columnId: columnNewId, order: newOrder } as ITask;
+              updatedTask = { ...draft[oldOrder], columnId: columnNewId, order: newOrder };
               draft.splice(oldOrder, 1);
 
               draft

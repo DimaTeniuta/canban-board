@@ -93,7 +93,7 @@ class TaskService {
           } else if (index < newOrder && index > oldOrder) {
             return { ...tmpTask, order: task.order - 1 };
           } else {
-            return task;
+            return tmpTask;
           }
         } else if (oldOrder > newOrder) {
           if (index === oldOrder) {
@@ -103,10 +103,10 @@ class TaskService {
           } else if (index > newOrder && index < oldOrder) {
             return { ...tmpTask, order: task.order + 1 };
           } else {
-            return task;
+            return tmpTask;
           }
         } else if (oldOrder === newOrder) {
-          return task;
+          return tmpTask;
         }
       });
 
@@ -119,9 +119,7 @@ class TaskService {
     );
 
     const savedTasks = await taskModel.find({ boardId });
-    const savedTasksDto = savedTasks
-      .map((task) => new TaskDto(task))
-      .sort((a, b) => a.order - b.order);
+    const savedTasksDto = savedTasks.map((task) => new TaskDto(task));
 
     return savedTasksDto;
   }
@@ -161,7 +159,8 @@ class TaskService {
 
   async updateTaskColumn(userId, boardId, body) {
     const { oldColumn, newColumn, taskId, oldOrder, newOrder } = body;
- 
+    console.log(1111, oldColumn, newColumn, taskId, oldOrder, newOrder);
+
     const accessResOld = await checkTaskAccess(boardId, oldColumn, userId);
     if (accessResOld) {
       return accessResOld;
@@ -188,6 +187,23 @@ class TaskService {
     if (!task) {
       return "Not Found";
     }
+
+    const oldTasks = await taskModel.find({ columnId: oldColumn });
+    const sortedOldColumnTasks = oldTasks
+      .sort((a, b) => a.order - b.order)
+      .map((task, index) => {
+        const { _id, order } = task;
+        const tmpTask = { _id, order };
+        return { ...tmpTask, order: index };
+      });
+
+    await Promise.all(
+      sortedOldColumnTasks.map((el) => {
+        return new Promise((res) =>
+          res(taskModel.findOneAndUpdate({ _id: el._id }, { order: el.order }))
+        );
+      })
+    );
 
     const updatedTask = await taskModel.findById(taskId);
 

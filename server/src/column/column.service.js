@@ -1,3 +1,4 @@
+import taskModel from "../task/task.model.js";
 import columnModel from "./column.model.js";
 import ColumnDto from "./dto/column.dto.js";
 import ColumnUpdatedDto from "./dto/columnUpdated.dto.js";
@@ -108,6 +109,7 @@ class ColumnService {
     }
 
     await columnModel.findOneAndDelete({ _id: columnId });
+    await taskModel.deleteMany({ columnId });
 
     const oldColumns = await columnModel.find({ boardId });
     const newColumns = oldColumns
