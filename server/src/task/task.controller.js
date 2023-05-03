@@ -89,6 +89,10 @@ class TaskController {
 
   async updateTaskOrder(req, res, next) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(res.status(400).json(errorService.setError(errors.errors[0].msg)));
+      }
       const boardId = req.params.id;
       const userId = req.user.id;
       const columnId = req.params.columnId;
@@ -104,6 +108,10 @@ class TaskController {
 
   async updateTaskColumn(req, res, next) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(res.status(400).json(errorService.setError(errors.errors[0].msg)));
+      }
       const boardId = req.params.id;
       const userId = req.user.id;
       const oldColumn = req.params.columnOldId;

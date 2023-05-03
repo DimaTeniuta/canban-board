@@ -39,7 +39,6 @@ const Columns = () => {
       await updateColumnOrder({ boardId: id!, data }).unwrap();
     } else if (type === 'task') {
       if (oldId === newId) {
-        console.log(1111);
         await updateTaskOrder({ boardId: id!, columnId: oldId, data }).unwrap();
       } else {
         const data = { taskId: result.draggableId, oldOrder, newOrder };

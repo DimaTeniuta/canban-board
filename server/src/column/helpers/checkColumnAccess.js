@@ -16,6 +16,7 @@ export const checkColumnAccess = async (userId, boardId, columnId = null) => {
     if (!column) {
       return "Not Found";
     }
+    
     if (column.userId !== userId) {
       return "Bad request";
     }

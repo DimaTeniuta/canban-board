@@ -1,18 +1,6 @@
 import userService from "./user.service.js";
 
 class UserController {
-  async getAllUsers(_, res, next) {
-    try {
-      const users = await userService.getAllUsers();
-      const filteredUsers = users.map((user) => {
-        return { email: user.email, id: user._id, name: user.name };
-      });
-      res.json(filteredUsers);
-    } catch (error) {
-      next(error);
-    }
-  }
-
   async getUser(req, res, next) {
     try {
       const userId = req.params.id;

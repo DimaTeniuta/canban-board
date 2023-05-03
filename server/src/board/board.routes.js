@@ -8,6 +8,6 @@ boardRouter.get("/boards", authMiddleware, boardController.getAllBoards);
 boardRouter.get("/boards/:id", authMiddleware, boardController.getBoard);
 boardRouter.post("/boards", authMiddleware, boardValidator, boardController.createBoard);
 boardRouter.put("/boards/:id", authMiddleware, boardValidator, boardController.updateBoard);
-boardRouter.delete("/boards/:id", authMiddleware, boardValidator, boardController.deleteBoard);
+boardRouter.delete("/boards/:id", authMiddleware, boardController.deleteBoard);
 
 export default boardRouter;
