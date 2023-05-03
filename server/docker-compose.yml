@@ -1,0 +1,16 @@
+version: "3"
+services:
+  server:
+    container_name: server
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - 2300:2300
+    env_file: .env
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    env_file: .env
