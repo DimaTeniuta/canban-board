@@ -9,7 +9,7 @@
 
 
 - `User` (`users/` route)
-    - `GET /:userId` - get the user by id(ex. “/users/123”)
+    - `GET /:userId` - get user by id
     - `PUT /:userId` - update user
     - `DELETE /:userId` - delete user
 
