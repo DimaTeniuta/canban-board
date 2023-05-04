@@ -3,7 +3,7 @@ import { useSnackbar } from 'notistack';
 import BoardForm from '../../entities/BoardForm/BoardForm';
 import { IFormBoardInput } from '../../entities/BoardForm/BoardForm.types';
 import { useCreateBoardMutation } from '../../shared/store/api/endpoints/board.endpoints';
-import { useStoreDispatch } from '../../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';
 
 const CreateBoard = () => {

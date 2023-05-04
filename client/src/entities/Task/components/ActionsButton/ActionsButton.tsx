@@ -4,7 +4,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InfoSharpIcon from '@mui/icons-material/InfoSharp';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useStoreDispatch } from '../../../../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../../../../shared/hooks/store.hooks';
 import { openModal } from '../../../../shared/store/slices/modalSlice/modalSlice';
 import UpdateTask from '../../../../features/UpdateTask';
 import DeleteTask from '../../../../features/DeleteTask/DeleteTask';

@@ -13,7 +13,7 @@ import {
 } from '../../shared/store/api/endpoints/task.endpoints';
 import CreateButton from '../../shared/components/CreateButton/CreateButton';
 import CreateColumn from '../../features/CreateColumn/CreateColumn';
-import { useStoreDispatch } from '../../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import * as Styled from './Columns.styles';
 

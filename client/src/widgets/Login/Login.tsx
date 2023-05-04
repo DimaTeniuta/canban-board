@@ -6,7 +6,7 @@ import AuthRouteLink from '../../shared/UI/AuthRouteLink/AuthRouteLink';
 import LoginForm from '../../entities/LoginForm';
 import { IFormLoginInput } from '../../entities/LoginForm/LoginForm.types';
 import { useLogInMutation } from '../../shared/store/api/endpoints/auth.endpoints';
-import { useStoreDispatch } from '../../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { setUser } from '../../shared/store/slices/userSlice/userSlice';
 import * as Styled from './Login.styles';
 

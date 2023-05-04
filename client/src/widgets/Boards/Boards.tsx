@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGetAllBoardsQuery } from '../../shared/store/api/endpoints/board.endpoints';
 import Spinner from '../../shared/UI/Spinner/Spinner';
-import { useStoreDispatch } from '../../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import UpdateBoard from '../../features/UpdateBoard';
 import { IBoard } from '../../shared/types/board';

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { SnackbarProvider } from 'notistack';
 import Spinner from '../shared/UI/Spinner/Spinner';
 import { useLazyCheckAuthQuery } from '../shared/store/api/endpoints/auth.endpoints';
-import { useStoreDispatch } from '../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../shared/hooks/store.hooks';
 import { setUser } from '../shared/store/slices/userSlice/userSlice';
 import { SnackbarUtilsConfigurator } from '../shared/utils/snackBar';
 import useUser from '../shared/hooks/useUser';

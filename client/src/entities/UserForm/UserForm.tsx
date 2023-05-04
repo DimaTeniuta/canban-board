@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, StyledEngineProvider, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import SubmitButton from '../../shared/UI/SubmitButton/SubmitButton';
 import Spinner from '../../shared/UI/Spinner/Spinner';
 import { IUserFormInput, IUserFormProps } from './UserForm.types';

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Button } from '../../shared/UI/GoToButton/GoToButton.styles';
-import { useStoreDispatch } from '../../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import * as Styled from './ConfirmBox.styles';
 import { IConfirmBoxProps } from './ConfirmBox.types';

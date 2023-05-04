@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSnackbar } from 'notistack';
 import { useDeleteBoardMutation } from '../../shared/store/api/endpoints/board.endpoints';
-import { useStoreDispatch } from '../../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import useModalData from '../../shared/hooks/useModalData';
 import ConfirmBox from '../../entities/ConfirmBox/ConfirmBox';
 import Spinner from '../../shared/UI/Spinner/Spinner';

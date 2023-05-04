@@ -5,7 +5,7 @@ import { useUpdateTaskMutation } from '../../shared/store/api/endpoints/task.end
 import { ITask } from '../../shared/types/task';
 import useModalData from '../../shared/hooks/useModalData';
 import { ITaskFormInputs } from '../../entities/TaskForm/TaskForm.types';
-import { useStoreDispatch } from '../../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';
 
 const UpdateTask = () => {

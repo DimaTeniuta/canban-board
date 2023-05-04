@@ -2,7 +2,7 @@ import React from 'react';
 import { useSnackbar } from 'notistack';
 import useUser from '../../shared/hooks/useUser';
 import { useDeleteUserMutation } from '../../shared/store/api/endpoints/user.endpoints';
-import { useStoreDispatch } from '../../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import { clearUser } from '../../shared/store/slices/userSlice/userSlice';
 import ConfirmBox from '../../entities/ConfirmBox/ConfirmBox';

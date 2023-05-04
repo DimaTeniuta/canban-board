@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSnackbar } from 'notistack';
-import { useStoreDispatch } from '../../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import useModalData from '../../shared/hooks/useModalData';
 import { useDeleteTaskMutation } from '../../shared/store/api/endpoints/task.endpoints';
 import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';

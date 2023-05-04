@@ -2,7 +2,7 @@ import React from 'react';
 import { useSnackbar } from 'notistack';
 import TaskForm from '../../entities/TaskForm/TaskForm';
 import { useCreateTaskMutation } from '../../shared/store/api/endpoints/task.endpoints';
-import { useStoreDispatch } from '../../shared/hooks/storeHooks';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { ITaskFormInputs } from '../../entities/TaskForm/TaskForm.types';
 import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import useModalData from '../../shared/hooks/useModalData';
