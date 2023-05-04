@@ -13,7 +13,7 @@ import {
 } from '../../shared/store/api/endpoints/task.endpoints';
 import CreateButton from '../../shared/components/CreateButton/CreateButton';
 import CreateColumn from '../../features/CreateColumn/CreateColumn';
-import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { useStoreDispatch } from '../../shared/hooks/storeHooks';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import * as Styled from './Columns.styles';
 
@@ -66,6 +66,7 @@ const Columns = () => {
         <Styled.CreateButtonWrapper>
           <CreateButton onClick={handleCreateColumn}>Add Column</CreateButton>
         </Styled.CreateButtonWrapper>
+
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable type="column" droppableId={id || ''} direction="horizontal">
             {(provided: DroppableProvided) => (

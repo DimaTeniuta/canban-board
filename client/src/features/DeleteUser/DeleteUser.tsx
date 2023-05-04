@@ -1,27 +1,30 @@
 import React from 'react';
 import { useSnackbar } from 'notistack';
-import { useDeleteBoardMutation } from '../../shared/store/api/endpoints/board.endpoints';
+import useUser from '../../shared/hooks/useUser';
+import { useDeleteUserMutation } from '../../shared/store/api/endpoints/user.endpoints';
 import { useStoreDispatch } from '../../shared/hooks/storeHooks';
-import useModalData from '../../shared/hooks/useModalData';
+import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';
+import { clearUser } from '../../shared/store/slices/userSlice/userSlice';
 import ConfirmBox from '../../entities/ConfirmBox/ConfirmBox';
 import Spinner from '../../shared/UI/Spinner/Spinner';
-import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';
 
-const DeleteBoard = () => {
+const DeleteUser = () => {
+  const user = useUser();
+  const [deleteUser, { isLoading }] = useDeleteUserMutation();
   const dispatch = useStoreDispatch();
-  const modalData = (useModalData() as unknown) as { boardId: string };
-  const [deleteBoard, { isLoading }] = useDeleteBoardMutation();
   const { enqueueSnackbar } = useSnackbar();
 
   const handleDelete = () => {
-    deleteBoard(modalData.boardId)
+    deleteUser({
+      userId: user.user!.id!,
+    })
       .unwrap()
       .then(() => {
         dispatch(closeModal());
-        enqueueSnackbar('Board is updated', { variant: 'success' });
+        dispatch(clearUser());
+        enqueueSnackbar('User is deleted', { variant: 'success' });
       })
       .catch((err) => {
-        dispatch(closeModal());
         enqueueSnackbar(err.data.errorMessage, { variant: 'error' });
       });
   };
@@ -34,4 +37,4 @@ const DeleteBoard = () => {
   );
 };
 
-export default DeleteBoard;
+export default DeleteUser;

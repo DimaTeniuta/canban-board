@@ -1,5 +1,6 @@
-import { createSlice, Middleware } from '@reduxjs/toolkit';
+import { createSlice, Middleware, PayloadAction } from '@reduxjs/toolkit';
 import { IStoreState } from '../../store.types';
+import { IAuthResponse } from '../../../types/auth';
 import { IUserStore } from './userSlice.types';
 
 const initialState: IUserStore = {
@@ -12,15 +13,15 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser(_, action) {
+    setUser(_, action: PayloadAction<IAuthResponse>) {
       return {
         user: action.payload.user,
         isAuth: !!action.payload.accessToken,
         token: action.payload.accessToken,
       };
     },
-    updateUser: (state, action) => {
-      return { ...state, ...action.payload };
+    updateUser: (state, action: PayloadAction<string>) => {
+      state.user!.name = action.payload;
     },
     clearUser: () => {
       return { ...initialState, token: null };

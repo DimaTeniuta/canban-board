@@ -6,7 +6,7 @@ import RegisterForm from '../../entities/RegisterForm/RegisterForm';
 import AuthRouteLink from '../../shared/UI/AuthRouteLink/AuthRouteLink';
 import { IFormRegisterInput } from '../../entities/RegisterForm/RegisterForm.types';
 import { useRegisterMutation } from '../../shared/store/api/endpoints/auth.endpoints';
-import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { useStoreDispatch } from '../../shared/hooks/storeHooks';
 import { setUser } from '../../shared/store/slices/userSlice/userSlice';
 import * as Styled from './Register.styles';
 

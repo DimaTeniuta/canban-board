@@ -1,11 +1,15 @@
+import { validationResult } from "express-validator";
+import { chooseUserResponse } from "./helpers/checkUserResponse.js";
 import userService from "./user.service.js";
+import errorService from "../exceptions/error.service.js";
 
 class UserController {
   async getUser(req, res, next) {
     try {
       const userId = req.params.id;
       const user = await userService.getUser(userId);
-      res.json({ email: user.email, id: user._id, name: user.name });
+      const response = chooseUserResponse(res, user);
+      return response;
     } catch (error) {
       next(error);
     }
@@ -13,6 +17,10 @@ class UserController {
 
   async updateUser(req, res, next) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(res.status(400).json(errorService.setError(errors.errors[0].msg)));
+      }
       const userId = req.user.id;
       const id = req.params.id;
       if (id !== userId) {
@@ -20,7 +28,8 @@ class UserController {
       }
       const { name } = req.body;
       const user = await userService.updateUser(userId, name);
-      res.json({ email: user.email, id: user._id, name: user.name });
+      const response = chooseUserResponse(res, user);
+      return response;
     } catch (error) {
       next(error);
     }
@@ -33,8 +42,9 @@ class UserController {
       if (id !== userId) {
         return next(res.status(400).json("Bad request"));
       }
-      const response = await userService.deleteUser(userId);
-      res.json(response);
+      const user = await userService.deleteUser(userId);
+      const response = chooseUserResponse(res, user);
+      return response;
     } catch (error) {
       next(error);
     }

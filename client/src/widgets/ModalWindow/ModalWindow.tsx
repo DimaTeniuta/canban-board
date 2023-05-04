@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Dialog } from '@mui/material';
 import { Box } from '@mui/system';
 import useModal from '../../shared/hooks/useModal';
-import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { useStoreDispatch } from '../../shared/hooks/storeHooks';
 import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import * as Styled from './ModalWindow.styles';
 

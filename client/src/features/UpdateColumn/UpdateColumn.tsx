@@ -6,7 +6,7 @@ import { useUpdateColumnMutation } from '../../shared/store/api/endpoints/column
 import { IFormColumnInput } from '../../entities/ColumnForm/ColumnForm.types';
 import { IColumn } from '../../shared/types/column';
 import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';
-import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { useStoreDispatch } from '../../shared/hooks/storeHooks';
 
 const UpdateColumn = () => {
   const modalData = (useModalData() as unknown) as IColumn;

@@ -1,5 +1,5 @@
 import { selectUser } from '../store/slices/userSlice/userSlice';
-import { useStoreSelector } from './store.hooks';
+import { useStoreSelector } from './storeHooks';
 
 const useUser = () => {
   const user = useStoreSelector(selectUser);

@@ -4,10 +4,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InfoSharpIcon from '@mui/icons-material/InfoSharp';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useStoreDispatch } from '../../../../shared/hooks/store.hooks';
+import { useStoreDispatch } from '../../../../shared/hooks/storeHooks';
 import { openModal } from '../../../../shared/store/slices/modalSlice/modalSlice';
 import UpdateTask from '../../../../features/UpdateTask';
 import DeleteTask from '../../../../features/DeleteTask/DeleteTask';
+import TaskInfo from '../../../TaskInfo/TaskInfo';
 import * as Styled from './ActionsButton.styles';
 import { IActionsButtonProps } from './ActionsButton.types';
 
@@ -24,7 +25,9 @@ export const ActionsButton: FC<IActionsButtonProps> = ({ data }) => {
     setAnchorEl(null);
   };
 
-  const handleShowInfo = () => {};
+  const handleShowInfo = () => {
+    dispatch(openModal({ title: 'Task Info', Component: TaskInfo, modalData: { ...data } }));
+  };
 
   const handleUpdate = () => {
     dispatch(openModal({ title: 'Update Task', Component: UpdateTask, modalData: { ...data } }));
