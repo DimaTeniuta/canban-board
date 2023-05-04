@@ -46,7 +46,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
 
     updateColumnOrder: builder.mutation<IColumn[], IColumnUpdateOrderRequest>({
       query: ({ boardId, data }) => ({
-        url: `/boards/${boardId}/order`,
+        url: `/boards/${boardId}/columns/order/set`,
         method: 'PUT',
         body: data,
       }),
