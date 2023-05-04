@@ -159,8 +159,6 @@ class TaskService {
 
   async updateTaskColumn(userId, boardId, body) {
     const { oldColumn, newColumn, taskId, oldOrder, newOrder } = body;
-    console.log(1111, oldColumn, newColumn, taskId, oldOrder, newOrder);
-
     const accessResOld = await checkTaskAccess(boardId, oldColumn, userId);
     if (accessResOld) {
       return accessResOld;

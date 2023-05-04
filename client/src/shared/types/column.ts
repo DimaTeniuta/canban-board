@@ -24,10 +24,6 @@ export interface IColumnDeleteRequest {
   columnId: string;
 }
 
-export interface IColumnDeleteResponse {
-  message: string;
-}
-
 export interface IColumnUpdateOrderRequest {
   boardId: string;
   data: {

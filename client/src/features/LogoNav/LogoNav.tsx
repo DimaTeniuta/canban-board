@@ -6,6 +6,8 @@ import { Logout } from '@mui/icons-material';
 import useUser from '../../shared/hooks/useUser';
 import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { clearUser } from '../../shared/store/slices/userSlice/userSlice';
+import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
+import UpdateUser from '../ProfileUser/ProfileUser';
 import * as Styled from './LogoNav.styles';
 
 export const LogoNav = () => {
@@ -29,7 +31,7 @@ export const LogoNav = () => {
   };
 
   const handleGoToProfile = () => {
-    console.log('go to profile');
+    dispatch(openModal({ title: 'Update User', Component: UpdateUser }));
   };
 
   return (

@@ -45,7 +45,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
 
     updateTaskOrder: builder.mutation<ITask[], ITasksUpdateOrder>({
       query: ({ boardId, columnId, data }) => ({
-        url: `/boards/${boardId}/columns/${columnId}/order/tasks`,
+        url: `/boards/${boardId}/columns/${columnId}/tasks/order/set`,
         method: 'PUT',
         body: data,
       }),
@@ -96,7 +96,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
 
     updateTaskOrderAndColumn: builder.mutation<ITask[], ITasksUpdateOrderAndColumn>({
       query: ({ boardId, columnOldId, columnNewId, data }) => ({
-        url: `boards/${boardId}/columns/${columnOldId}/${columnNewId}/order/tasks`,
+        url: `boards/${boardId}/columns/${columnOldId}/${columnNewId}/tasks/order/set`,
         method: 'PUT',
         body: data,
       }),

@@ -2,10 +2,10 @@ import {
   IColumn,
   IColumnCreateResponse,
   IColumnDeleteRequest,
-  IColumnDeleteResponse,
   IColumnUpdateOrderRequest,
   IColumnUpdateResponse,
 } from '../../../types/column';
+import { ISuccessRes } from '../../../types/general';
 import { apiConfig } from '../apiConfig';
 
 const extendedApiSlice = apiConfig.injectEndpoints({
@@ -36,7 +36,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
       invalidatesTags: (_, __, arg) => [{ type: 'Column', id: arg.columnId }],
     }),
 
-    deleteColumn: builder.mutation<IColumnDeleteResponse, IColumnDeleteRequest>({
+    deleteColumn: builder.mutation<ISuccessRes, IColumnDeleteRequest>({
       query: ({ boardId, columnId }) => ({
         url: `/boards/${boardId}/columns/${columnId}`,
         method: 'DELETE',
@@ -46,7 +46,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
 
     updateColumnOrder: builder.mutation<IColumn[], IColumnUpdateOrderRequest>({
       query: ({ boardId, data }) => ({
-        url: `/boards/${boardId}/order`,
+        url: `/boards/${boardId}/columns/order/set`,
         method: 'PUT',
         body: data,
       }),

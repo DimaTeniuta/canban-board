@@ -11,12 +11,16 @@ import {
   useUpdateTaskOrderAndColumnMutation,
   useUpdateTaskOrderMutation,
 } from '../../shared/store/api/endpoints/task.endpoints';
-import AddColumnBox from './components/AddColumnBox/AddColumnBox';
+import CreateButton from '../../shared/components/CreateButton/CreateButton';
+import CreateColumn from '../../features/CreateColumn/CreateColumn';
+import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import * as Styled from './Columns.styles';
 
 const Columns = () => {
   const { id } = useParams();
   const { data } = useGetColumnsQuery(id!);
+  const dispatch = useStoreDispatch();
 
   const [updateColumnOrder] = useUpdateColumnOrderMutation();
   const [updateTaskOrder] = useUpdateTaskOrderMutation();
@@ -52,10 +56,16 @@ const Columns = () => {
     }
   };
 
+  const handleCreateColumn = () => {
+    dispatch(openModal({ title: 'Create Column', Component: CreateColumn }));
+  };
+
   return (
     <Container maxWidth="xl">
       <Styled.Container>
-        <AddColumnBox />
+        <Styled.CreateButtonWrapper>
+          <CreateButton onClick={handleCreateColumn}>Add Column</CreateButton>
+        </Styled.CreateButtonWrapper>
 
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable type="column" droppableId={id || ''} direction="horizontal">

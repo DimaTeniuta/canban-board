@@ -1,4 +1,4 @@
-import { IUser } from './user';
+import { IUserAuth } from './user';
 
 export interface IAuthRequest {
   email: string;
@@ -9,5 +9,5 @@ export interface IAuthRequest {
 export interface IAuthResponse {
   accessToken: string;
   refreshToken: string;
-  user: IUser;
+  user: IUserAuth;
 }

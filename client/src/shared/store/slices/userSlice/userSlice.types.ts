@@ -1,7 +1,7 @@
-import { IUser } from '../../../types/user';
+import { IUserAuth } from '../../../types/user';
 
 export interface IUserStore {
-  user: IUser | null;
+  user: IUserAuth | null;
   isAuth: boolean;
   token: string | null;
 }
