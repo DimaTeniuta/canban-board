@@ -6,6 +6,8 @@ import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import UpdateBoard from '../../features/UpdateBoard';
 import { IBoard } from '../../shared/types/board';
 import DeleteBoard from '../../features/DeleteBoard/DeleteBoard';
+import CreateButton from '../../shared/components/CreateButton/CreateButton';
+import CreateBoard from '../../features/CreateBoard/CreateBoard';
 import CardBox from './components/CardBox/CardBox';
 import * as Styled from './Boards.styles';
 
@@ -32,22 +34,31 @@ const Boards = () => {
       );
   };
 
+  const handleCreateBoard = () => {
+    dispatch(openModal({ title: 'Create Board', Component: CreateBoard }));
+  };
+
   return (
     <Styled.Container>
       {isLoading ? (
         <Spinner />
       ) : (
-        data &&
-        data.map((board) => (
-          <CardBox
-            key={board.id}
-            title={board.title}
-            description={board.description}
-            onUpdate={handleUpdate(board)}
-            onDelete={handleDelete(board.id)}
-            path={`${board.id}`}
-          />
-        ))
+        <>
+          <Styled.CreateButtonWrapper>
+            <CreateButton onClick={handleCreateBoard}>Add Board</CreateButton>
+          </Styled.CreateButtonWrapper>
+          {data &&
+            data.map((board) => (
+              <CardBox
+                key={board.id}
+                title={board.title}
+                description={board.description}
+                onUpdate={handleUpdate(board)}
+                onDelete={handleDelete(board.id)}
+                path={`${board.id}`}
+              />
+            ))}
+        </>
       )}
     </Styled.Container>
   );

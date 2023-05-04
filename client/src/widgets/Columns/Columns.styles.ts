@@ -7,8 +7,15 @@ export const Container = styled('div')({
   paddingTop: 30,
 });
 
+export const CreateButtonWrapper = styled(Paper)(() => ({
+  position: 'absolute',
+  top: 0,
+  left: 'calc(50% - 80px)',
+}));
+
 export const ColumnBox = styled(Paper)(() => ({
   display: 'flex',
+  justifyContent: 'start',
   alignItems: 'flex-start',
   columnGap: 20,
   flexWrap: 'nowrap',
@@ -19,4 +26,7 @@ export const ColumnBox = styled(Paper)(() => ({
   padding: 20,
   overflowX: 'auto',
   overflowY: 'hidden',
+  '::-webkit-scrollbar-thumb': {
+    borderRadius: '6px',
+  },
 }));

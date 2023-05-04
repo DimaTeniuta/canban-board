@@ -1,11 +1,5 @@
 import React, { FC } from 'react';
-import {
-  Draggable,
-  DraggableProvided,
-  Droppable,
-  DroppableProvided,
-  DraggableStateSnapshot,
-} from 'react-beautiful-dnd';
+import { Draggable, DraggableProvided, Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import ActionsButtons from '../../shared/components/ActionsButtons/ActionsButtons';
 import { useStoreDispatch } from '../../shared/hooks/store.hooks';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
@@ -54,7 +48,7 @@ const Column: FC<IColumnProps> = ({ columnData, index }) => {
 
   return (
     <Draggable draggableId={columnData.id} key={columnData.id} index={index}>
-      {(providedDragColumn: DraggableProvided, dragableSnapshot: DraggableStateSnapshot) => (
+      {(providedDragColumn: DraggableProvided) => (
         <Styled.PaperContainer
           ref={providedDragColumn.innerRef}
           {...providedDragColumn.draggableProps}

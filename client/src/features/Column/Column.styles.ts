@@ -9,7 +9,6 @@ export const PaperContainer = styled(Paper)({
   maxHeight: 500,
   maxWidth: 300,
   minWidth: 300,
-  margin: 'auto',
 });
 
 export const Title = styled('div')(({ theme }) => ({
@@ -48,9 +47,15 @@ export const TaskBox = styled('div')(() => ({
   maxHeight: '420px',
   padding: '10px',
   overflowY: 'auto',
+  '::-webkit-scrollbar': {
+    width: 8,
+  },
+  '::-webkit-scrollbar-thumb': {
+    borderRadius: '6px',
+  },
 }));
 
-export const ButtonsWrap = styled('div')(({ theme }) => ({
+export const ButtonsWrap = styled('div')(() => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
