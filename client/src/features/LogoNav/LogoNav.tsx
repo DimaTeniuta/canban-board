@@ -4,7 +4,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Divider, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 import useUser from '../../shared/hooks/useUser';
-import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { useStoreDispatch } from '../../shared/hooks/storeHooks';
 import { clearUser } from '../../shared/store/slices/userSlice/userSlice';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import UpdateUser from '../ProfileUser/ProfileUser';

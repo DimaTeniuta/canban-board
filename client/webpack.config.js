@@ -10,7 +10,7 @@ module.exports = {
     app: './src/index.tsx',
   },
   plugins: [
-    new EnvironmentPlugin([]),
+    new EnvironmentPlugin(['API_URL']),
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
