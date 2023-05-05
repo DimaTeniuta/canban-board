@@ -7,6 +7,7 @@ import useModal from '../../shared/hooks/useModal';
 
 export const Layout = () => {
   const { open } = useModal();
+
   return (
     <>
       <Header />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSnackbar } from 'notistack';
 import ConfirmBox from '../../entities/ConfirmBox/ConfirmBox';
-import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { useStoreDispatch } from '../../shared/hooks/storeHooks';
 import { useDeleteColumnMutation } from '../../shared/store/api/endpoints/column.endpoints';
 import useModalData from '../../shared/hooks/useModalData';
 import { IColumnDeleteRequest } from '../../shared/types/column';

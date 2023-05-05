@@ -2,7 +2,7 @@ import React from 'react';
 import { useSnackbar } from 'notistack';
 import { useUpdateUserMutation } from '../../shared/store/api/endpoints/user.endpoints';
 import useUser from '../../shared/hooks/useUser';
-import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { useStoreDispatch } from '../../shared/hooks/storeHooks';
 import { IUserFormInput } from '../../entities/UserForm/UserForm.types';
 import { closeModal, openModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import UserForm from '../../entities/UserForm/UserForm';

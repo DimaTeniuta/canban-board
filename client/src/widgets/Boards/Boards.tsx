@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGetAllBoardsQuery } from '../../shared/store/api/endpoints/board.endpoints';
 import Spinner from '../../shared/UI/Spinner/Spinner';
-import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { useStoreDispatch } from '../../shared/hooks/storeHooks';
 import { openModal } from '../../shared/store/slices/modalSlice/modalSlice';
 import UpdateBoard from '../../features/UpdateBoard';
 import { IBoard } from '../../shared/types/board';
@@ -47,6 +47,7 @@ const Boards = () => {
           <Styled.CreateButtonWrapper>
             <CreateButton onClick={handleCreateBoard}>Add Board</CreateButton>
           </Styled.CreateButtonWrapper>
+
           {data &&
             data.map((board) => (
               <CardBox

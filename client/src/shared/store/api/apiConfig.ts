@@ -10,7 +10,7 @@ import { clearUser, updateToken } from '../slices/userSlice/userSlice';
 import Snackbar from '../../utils/snackBar';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:2300/',
+  baseUrl: process.env.API_URL,
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as IStoreState).user.token;

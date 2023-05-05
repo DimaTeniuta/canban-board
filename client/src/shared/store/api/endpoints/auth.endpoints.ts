@@ -10,6 +10,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
         body: data,
       }),
     }),
+
     logIn: builder.mutation<IAuthResponse, IAuthRequest>({
       query: (data) => ({
         url: 'login',
@@ -17,6 +18,7 @@ const extendedApiSlice = apiConfig.injectEndpoints({
         body: data,
       }),
     }),
+
     checkAuth: builder.query<IAuthResponse, null>({
       query: () => 'refresh',
     }),

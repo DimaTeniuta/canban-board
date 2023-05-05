@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 import ColumnForm from '../../entities/ColumnForm/ColumnForm';
 import { useCreateColumnMutation } from '../../shared/store/api/endpoints/column.endpoints';
 import { IFormColumnInput } from '../../entities/ColumnForm/ColumnForm.types';
-import { useStoreDispatch } from '../../shared/hooks/store.hooks';
+import { useStoreDispatch } from '../../shared/hooks/storeHooks';
 import { closeModal } from '../../shared/store/slices/modalSlice/modalSlice';
 
 const CreateColumn = () => {

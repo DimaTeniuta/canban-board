@@ -1,5 +1,5 @@
 import { selectModal } from '../store/slices/modalSlice/modalSlice';
-import { useStoreSelector } from './store.hooks';
+import { useStoreSelector } from './storeHooks';
 
 const useModalData = () => {
   const { modalData } = useStoreSelector(selectModal);

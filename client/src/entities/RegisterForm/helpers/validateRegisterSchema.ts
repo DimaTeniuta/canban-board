@@ -6,8 +6,10 @@ export const validateRegisterSchema = object({
     .required(),
   password: string()
     .required()
-    .min(5),
+    .min(5)
+    .max(32),
   name: string()
     .required()
-    .min(3),
+    .min(3)
+    .max(32),
 });
