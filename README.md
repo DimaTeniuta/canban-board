@@ -2,8 +2,8 @@
 ____
 ### How to use this app
 
-- `git clone https://github.com/DimaTeniuta/canban-board.git`
 - open terminal
+    - `git clone https://github.com/DimaTeniuta/canban-board.git`
     - `cd canban-board\server`
     - create `.env` file in server folder (you can find additional information in `.env.sample` file)
     - `npm install`
