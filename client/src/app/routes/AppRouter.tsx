@@ -31,6 +31,7 @@ const AppRouter = () => {
               </PublicRouteGuard>
             }
           />
+
           <Route
             path="register"
             element={
@@ -39,6 +40,7 @@ const AppRouter = () => {
               </PublicRouteGuard>
             }
           />
+
           <Route path="boards" element={<PrivateRouteGuard>{<Outlet />}</PrivateRouteGuard>}>
             <Route index element={<BoardsPage />} />
             <Route path=":id" element={<BoardPage />} />
