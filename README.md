@@ -6,7 +6,6 @@ ____
     - `git clone https://github.com/DimaTeniuta/canban-board.git`
     - `cd canban-board\server`
     - create `.env` file in server folder (you can find additional information in `.env.sample` file)
-    - `npm install`
     - open Docker Desktop
     - `docker-compose up --build -d`
 - open new terminal
